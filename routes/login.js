@@ -14,7 +14,5 @@ app.post('/',(req,res,next)=>{
    
 })
 
-
-
 //Exportar modulo para que otros modulos lo usen
 module.exports=app
