@@ -16,7 +16,7 @@ app.use(express.json())
 app.use(morgan('combined'))
 app.use(express.static(__dirname +'/public'))
 //Utilizar las rutas de Express Router
-const r1 =require('./routes/login.js')
+const r1 =require('./routes/login.js') 
 const r2 =require('./routes/home.js')
 const r3 =require('./routes/torneos.js') //fixture, posiciones
 const r4 =require('./routes/usuario.js')
