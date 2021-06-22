@@ -10,8 +10,10 @@ app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 
 // Definicion de rutas
-app.post('/',(req,res,next)=>{
+app.get('/login',(req,res,next)=>{
+   //Error si el correo ya existe
    
+  res.render('welcome')
 })
 
 //Exportar modulo para que otros modulos lo usen

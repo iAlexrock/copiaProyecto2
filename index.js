@@ -1,34 +1,47 @@
-const express = require ('express')
-const http =require('http')
-const bodyParser = require('body-parser')
-const morgan = require ('morgan')
+const express = require('express')
+const http = require('http');
+const morgan = require("morgan")
 
-const hostname ='localhost'
-const port =3000
+/* Uso de layout */
+const expressEjsLayout = require('express-ejs-layouts')
 
-//Instanciar a Express
-const app= express()
+const hostname = 'localhost';
+const port = 3000;
 
-//Configurar a Express
-app.use(express.urlencoded({extended:true}))
-app.use(express.json())
+/* CRear la app Express */
+const app = express();
 
 app.use(morgan('combined'))
-app.use(express.static(__dirname +'/public'))
-//Utilizar las rutas de Express Router
-const r1 =require('./routes/login.js') 
-const r2 =require('./routes/home.js')
-const r3 =require('./routes/torneos.js') //fixture, posiciones
-const r4 =require('./routes/usuario.js')
 
+//AGREGAR EJS
+app.set('view engine','ejs');
+app.set('layout', '../layouts/plantilla');
+app.use(expressEjsLayout);
 
-app.use('/login',r1)
-app.use('/home',r2)
-app.use('/torneos',r3)
-app.use('/usuarios',r4)
+/* MAnejo de Sesion 
+const session = require('express-session')
+app.use(session ({
+  secret : "misecreto",
+  resave : false,
+  saveUninitialized : false
+}))*/
 
-//Instanciar al server http
-const server= http.createServer(app)
-server.listen(port,hostname,()=>{
-    console.log("Servidor iniciado...")
-})
+/* Uso de Rutas */
+const logeados = require('./routes/login'); //rutas para los usuarios logeados
+const fixt = require('./routes/fixture');
+const posi = require('./routes/posiciones');
+const torneo = require('./routes/torneo');
+app.use('/' , logeados); 
+/*app.use('/' , fixt); 
+app.use('/' , posi); 
+app.use('/' , torneo); */
+
+/* Archivos estaticos */
+app.use(express.static(__dirname + "/public"))
+
+const server = http.createServer(app);
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+

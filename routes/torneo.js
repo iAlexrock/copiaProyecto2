@@ -10,8 +10,8 @@ app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 
 // Definicion de rutas
-app.post('/',(req,res,next)=>{
-   
+app.post('/editar',(req,res,next)=>{
+   //cambiar estado de torneo como organizador
 })
 //Exportar modulo para que otros modulos lo usen
 module.exports=app
