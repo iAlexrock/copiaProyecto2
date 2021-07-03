@@ -34,7 +34,8 @@ const torneo = require('./routes/torneo');
 app.use('/' , logeados); 
 /*app.use('/' , fixt); 
 app.use('/' , posi); 
-app.use('/' , torneo); */
+app.use('/' , torneo);
+mamabicho */
 
 /* Archivos estaticos */
 app.use(express.static(__dirname + "/public"))
@@ -44,4 +45,5 @@ const server = http.createServer(app);
 server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
+
 
