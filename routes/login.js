@@ -29,4 +29,4 @@ rutas.post('/',(req,res)=>{
    //permitir el logeo si se encuentran los datos, redirigir a la ruta que corresponda
    //validar usuario
 })
-module.exports =rutas
+module.exports =rutas;
