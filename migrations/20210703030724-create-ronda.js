@@ -14,6 +14,14 @@ module.exports = {
       numRonda: {
         type: Sequelize.INTEGER
       },
+      IdTorneo:{
+        type:Sequelize.INTEGER,
+        allowNull:false,
+        references:{
+          model:'Torneos',
+          key:'id'
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

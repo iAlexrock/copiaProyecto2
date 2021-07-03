@@ -14,6 +14,22 @@ module.exports = {
       estado: {
         type: Sequelize.STRING
       },
+      IdEquipo:{
+        type:Sequelize.INTEGER,
+        allowNull:false,
+        references:{
+          model:'Equipos',
+          key:'id'
+        }
+      },
+      IdTorneo:{
+        type:Sequelize.INTEGER,
+        allowNull:false,
+        references:{
+          model:'Torneos',
+          key:'id'
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

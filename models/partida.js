@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Partida.belongsTo(models.Ronda,{foreignKey:'IdRonda',as:'rondas'})
+      Partida.belongsTo(models.Equipo,{foreignKey:'IdEquipo1',as:'e1'})
+      Partida.belongsTo(models.Equipo,{foreignKey:'IdEquipo2',as:'e2'})
     }
   };
   Partida.init({

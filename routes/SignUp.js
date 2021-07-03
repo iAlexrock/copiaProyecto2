@@ -22,11 +22,10 @@ rutas.use(par.array()) //para multer
 
 
 rutas.get('/',(req,res)=>{
-    //ingresar datos del login
-    //boton aceptar
+    //ingresar datos para registrarse
 })
 rutas.post('/',(req,res)=>{
-   //permitir el logeo si se encuentran los datos, redirigir a la ruta que corresponda
-   //validar usuario
+    //agregar a tabla participante lider
+    //error si ya fue usado
 })
 module.exports =rutas

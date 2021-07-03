@@ -17,6 +17,14 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
+      IdEquipo:{
+        type:Sequelize.INTEGER,
+        allowNull:false,
+        references:{
+          model:'Equipos',
+          key:'id'
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
