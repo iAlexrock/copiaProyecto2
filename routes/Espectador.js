@@ -5,9 +5,7 @@ const rutas = express.Router()
 
 const Sequelize = require('sequelize')
 const models= require('../models')
-const  admin= models.Administrador
-const lider= models.Lider
-const organizador=models.Organizador
+const  torneo= models.Torneo
 
 const {Op}= require("sequelize")
 
@@ -21,12 +19,13 @@ rutas.use(express.json())
 rutas.use(par.array()) //para multer
 
 
-rutas.get('/',(req,res)=>{
-    //ingresar datos del login
-    //boton aceptar
+rutas.get('/consultarTodo',(req,res)=>{
+    return torneo.findAll(
+        {
+            //añadir condicion "solo torneos en curso"
 })
-rutas.post('/',(req,res)=>{
-   //permitir el logeo si se encuentran los datos, redirigir a la ruta que corresponda
-   //validar usuario
+    .then(torneo=> res.status(200).send(torneo))
+    .catch(error=> res.status(400).send(error))
 })
+
 module.exports =rutas;
