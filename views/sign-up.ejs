@@ -1,0 +1,29 @@
+<!--Paramteros: nombre,correo,contrasena,equipo, errorcorreo,errorequipo-->
+<h1>Registrarse</h1>
+
+<form  action="sign-up" method="POST">
+Nombre Completo:
+<input type="text" name="nombre" value="<%=nombre%>">
+<br>
+<% if (errorcorreo==true){%>
+    correo mal ingresado  <!--poner color rojo y letra mas pequeña-->
+    <br>
+<%}%>
+Correo electrónico:
+<input type="text" name="correo" value="<%=correo%>">
+<br>
+Contraseña:
+<input type="text" name="contrasena" value="<%=contrasena%>">
+<br>
+<% if (errorequipo==true){%>
+    correo mal ingresado  <!--poner color rojo y letra mas pequeña-->
+    <br>
+<%}%>
+Equipo:
+<input type="text" name="nombreequipo" value="<%=equipo%>">
+
+
+<input type="submit"  value="Enviar" />
+
+</form><button href="http://www.ulima.edu.pe">Volver</button>
+

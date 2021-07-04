@@ -27,11 +27,11 @@ app.use(session ({
 }))*/
 
 /* Uso de Rutas */
-const logeados = require('./routes/login'); //rutas para los usuarios logeados
-const fixt = require('./routes/fixture');
-const posi = require('./routes/posiciones');
-const torneo = require('./routes/torneo');
-app.use('/' , logeados); 
+const logeados = require('./routes/SignUp'); //rutas para los usuarios logeados
+//const fixt = require('./routes/fixture');
+//const posi = require('./routes/posiciones');
+//const torneo = require('./routes/torneo');
+app.use('/sign-up' , logeados); 
 /*app.use('/' , fixt); 
 app.use('/' , posi); 
 app.use('/' , torneo); */
