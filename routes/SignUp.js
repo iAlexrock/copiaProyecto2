@@ -26,7 +26,7 @@ rutas.get('/',(req,res)=>{
     res.render('sign-up',{
         nombre:'', correo:'',contrasena:'',
         equipo:'', errorcorreo:false,
-        errorequipo:false, layout: '../layouts/plantilla' })
+        errorequipo:false, layout: '../layouts/Signin' })
 })
 rutas.post('/',(req,res)=>{
     //agregar a tabla participante lider
