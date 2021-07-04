@@ -31,12 +31,15 @@ app.use(session ({
 
 const logeados = require('./routes/SignUp'); //rutas para los usuarios logeados
 const ingreso = require('./routes/SignIn'); //rutas para iniciar sesion
+const organizador = require('./routes/Organizador'); //rutas para iniciar sesion
 //const fixt = require('./routes/fixture');
 //const posi = require('./routes/posiciones');
 //const torneo = require('./routes/torneo');
 
 app.use('/sign-up' , logeados); 
 app.use('/sign-in' , ingreso); 
+app.use('/organizador' , organizador); 
+
 /*app.use('/' , fixt); 
 app.use('/' , posi); 
 app.use('/' , torneo);

@@ -8,6 +8,7 @@ const models= require('../models')
 const  admin= models.Administrador
 const lider= models.Lider
 const organizador=models.Organizador
+const torneo=models.Torneo
 
 const {Op}= require("sequelize")
 
@@ -27,12 +28,40 @@ rutas.get('/torneos',(req,res)=>{
 rutas.post('/torneos',(req,res)=>{
   //filtrar torneos
 })
-rutas.get('/crear-torneo',(req,res)=>{
+
+rutas.get('/creartorneo',(req,res)=>{
   //muestra pagina de creacion de torneo
+  res.render('creartorneo')
 })
-rutas.post('/crear-torneo',(req,res)=>{
+ 
+
+
+rutas.post('/creartorneo',(req,res)=>{
   //envia los campos del torneo creado
+  torneo.create({
+    nombre: req.body.nombre,
+    descripcion: req.body.descripcion,
+    fecha_ini: req.body.fecha_ini,
+    fecha_fin: req.body.fecha_fin,
+    maxParticipantes: req.body.maxParticipantes,
+    tipo: req.body.tipo,
+    partidasxDia: req.body.partidasxDia,
+    puntajeGanar: req.body.puntajeGanar,
+    puntajePerder: req.body.puntajePerder,
+    puntajeEmpatar: req.body.puntajeEmpatar,
+    estado: 'abierto',
+    IdOrganizador: 1
+     
+  }).then(rpta =>{
+    res.redirect('/')
+  })
+  .catch( error =>{
+    console.log(error)
+    res.status(500).send(error)
+  })
 })
+
+
 rutas.get('/editar-torneo',(req,res)=>{
   //muestra la pagina de editar los campos de el torneo seleccionado
 })
