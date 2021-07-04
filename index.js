@@ -13,6 +13,30 @@ const app = express();
 
 app.use(morgan('combined'))
 
+// ingresar el mongodb
+
+/*
+
+por el momento esta ne app.js!!!!!
+
+const mongoose = require('mongoose');
+
+const user= 'eldrickop';
+const password = 'eldrickop';
+const dbname = 'veterinaira';
+const uri=`mongodb+srv://${user}:${password}@cluster0.t4msq.mongodb.net/${dbname}?retryWrites=true&w=majority`;
+
+
+mongoose.connect(uri, 
+    {useNewUrlParser: true, useUnifiedTopology: true}
+    ).then(()=>console.log('base de datos mongo conectada'))
+    .catch(e=> console.log(e));
+
+
+
+
+*/
+
 //AGREGAR EJS
 app.set('view engine','ejs');
 app.set('layout', '../layouts/plantilla');
@@ -34,7 +58,10 @@ const logeados = require('./routes/SignUp'); //rutas para los usuarios logeados
 app.use('/sign-up' , logeados); 
 /*app.use('/' , fixt); 
 app.use('/' , posi); 
-app.use('/' , torneo); */
+app.use('/' , torneo);
+ee
+*/
+
 
 /* Archivos estaticos */
 app.use(express.static(__dirname + "/public"))
@@ -44,4 +71,5 @@ const server = http.createServer(app);
 server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
+
 
