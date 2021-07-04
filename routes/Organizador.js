@@ -38,6 +38,13 @@ rutas.get('/creartorneo',(req,res)=>{
 
 rutas.post('/creartorneo',(req,res)=>{
   //envia los campos del torneo creado
+  const aviso = req.body.descripcion
+  console.log("------------------>>>>>>>>>>>>>>"+req.body.aviso)
+  console.log(aviso)
+  if(req.body.aviso=="on")
+  {
+    console.log("aviso tabla creada bien")
+  } 
   torneo.create({
     nombre: req.body.nombre,
     descripcion: req.body.descripcion,
@@ -53,6 +60,7 @@ rutas.post('/creartorneo',(req,res)=>{
     IdOrganizador: 1
      
   }).then(rpta =>{
+    
     res.redirect('/')
   })
   .catch( error =>{
