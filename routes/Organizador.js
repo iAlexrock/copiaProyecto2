@@ -24,7 +24,7 @@ rutas.use(express.json())
 rutas.use(par.array()) //para multer
 
 
-rutas.get('/torneos',(req,res)=>{
+rutas.get('/torneos',isAuthenticated,(req,res)=>{
   //mostrar torneos
   torneo.findAll({})
   .then(rpta=>{
