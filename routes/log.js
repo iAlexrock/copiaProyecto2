@@ -13,6 +13,7 @@ const usuario=require('../models/usuario')
 
 const passport=require('passport');
 
+
 const {Op}= require("sequelize")
 
 //MULTER
@@ -28,23 +29,23 @@ rutas.use(par.array()) //para multer
 //logeo de ususarios sign-up 2 
 
 
-
-
-
-
-//inicio sesion
 rutas.get('/',(req,res)=>{
     
-    res.render('ingreso',{ layout: '../layouts/Signin' })
+    res.render('logeo',{ layout: '../layouts/Signin' })
 })
 
 
-
-rutas.post('/', passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/sign-in',
+rutas.post('/',async (req,res)=>{
+    const {nombre,correo,password,confirm_password}= req.body;
     
-  }));
+    const nuevousuario=  new usuario({nombre,correo,password});
+    
+    nuevousuario.password =  await nuevousuario.encryptPassword(password);
+    
+    await nuevousuario.save();
+
+    res.redirect('/')
+});
 
 
 
