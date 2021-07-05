@@ -33,18 +33,11 @@ rutas.use(par.array()) //para multer
 
 
 //inicio sesion
-rutas.get('/',(req,res)=>{
-  let errors = [];
-    res.render('ingreso',{ errors,layout: '../layouts/Signin' })
-})
-
-
-
-rutas.post('/', passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/sign-in',
-    failureFlash: true
-  }));
+rutas.get('/', (req, res) => {
+    req.logout();
+    req.flash('success_msg', 'You are logged out now.');
+    res.redirect('/');
+  });
 
 
 

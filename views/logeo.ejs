@@ -1,4 +1,18 @@
-<h1>logg SESION</h1>
+
+   <% errors.forEach( function(c)  {  %>
+    
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%= c.text%>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+<%}) %>   
+
+
+
+
+<div>
+<h1>logg admin SESION</h1>
 
 <form action="log" method="POST">
     <div class="form-group">
@@ -17,3 +31,4 @@
       Signup 
     </button>
   </form>
+</div>

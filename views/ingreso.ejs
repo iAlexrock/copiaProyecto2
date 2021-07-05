@@ -1,17 +1,30 @@
 <!--Paramteros: nombre,correo,contrasena,equipo, errorcorreo,errorequipo-->
+
+<% errors.forEach( function(c)  {  %>
+    
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%= c.text%>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+<%}) %>   
+
+
+
 <h1>INICIAR SESION</h1>
 
 <form  action="sign-in" method="POST">
 
+    <div class="form-group">
+        <input type="email" class="form-control" name="correo" placeholder="Email" value="">
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-control" name="password" placeholder="Password" value="">
+      </div>
 
+      <button class="btn btn-primary btn-block">
+        Ingresar 
+      </button>
 
-<p>Correo electrónico:
-<input type="text" name="correo" value=""></p>
-
-<p>Contraseña:
-<input type="text" name="password" value=""></p>
-
-
-<input type="submit"  value="Enviar" />
 
 </form>

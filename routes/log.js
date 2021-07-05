@@ -30,21 +30,58 @@ rutas.use(par.array()) //para multer
 
 
 rutas.get('/',(req,res)=>{
-    
-    res.render('logeo',{ layout: '../layouts/Signin' })
+    let errors = [];
+
+    res.render('logeo',{errors, layout: '../layouts/Signin' })
 })
 
 
 rutas.post('/',async (req,res)=>{
+    let errors = [];
     const {nombre,correo,password,confirm_password}= req.body;
-    
-    const nuevousuario=  new usuario({nombre,correo,password});
-    
-    nuevousuario.password =  await nuevousuario.encryptPassword(password);
-    
-    await nuevousuario.save();
 
-    res.redirect('/')
+    if(password != confirm_password) {
+        errors.push({text: 'las Ccntraseñas no coinciden'});
+      }
+    if(password.length == 0) {
+        errors.push({text: 'La contraseña es muy corta'})
+      }
+    if(nombre ==""){
+        errors.push({text: 'nombre en blanco'});
+      }
+    if(correo ==""){
+        errors.push({text: 'correo en blanco'});
+      }
+    if(password ==""){
+        errors.push({text: 'password en blanco'});
+      }
+
+
+    if(errors.length > 0){
+        res.render('logeo', {errors, layout: '../layouts/Signin' });
+    }else{
+        //validacion de correo
+        const usuariocorreo = await usuario.findOne({correo:correo})
+        if(usuariocorreo){
+            errors.push({text: 'Contraseña ya usada mamabicho, no es necesario logearte nuevamente '});
+            res.render('ingreso',{errors,layout: '../layouts/Signin' })
+        }
+        else{
+            const nuevousuario=  new usuario({nombre,correo,password});
+            nuevousuario.password =  await nuevousuario.encryptPassword(password);
+            await nuevousuario.save();
+            req.flash('success_msg', 'usuario  creado correctamente');
+            res.redirect('/organizador/creartorneo')
+        
+        }
+      }
+
+    
+
+
+
+
+    
 });
 
 

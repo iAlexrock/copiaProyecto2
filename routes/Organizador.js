@@ -12,8 +12,11 @@ const torneo=models.Torneo
 
 const {Op}= require("sequelize")
 
+const {isAuthenticated} = require('../helpers/auth')
+
 //MULTER
 const multer = require('multer')
+
 const par = multer()
 
 //Parsing de los datos
@@ -29,14 +32,14 @@ rutas.post('/torneos',(req,res)=>{
   //filtrar torneos
 })
 
-rutas.get('/creartorneo',(req,res)=>{
+rutas.get('/creartorneo',isAuthenticated,(req,res)=>{
   //muestra pagina de creacion de torneo
   res.render('creartorneo')
 })
  
 
 
-rutas.post('/creartorneo',(req,res)=>{
+rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
   //envia los campos del torneo creado
   const aviso = req.body.descripcion
   console.log("------------------>>>>>>>>>>>>>>"+req.body.aviso)
@@ -61,7 +64,7 @@ rutas.post('/creartorneo',(req,res)=>{
      
   }).then(rpta =>{
     
-    res.redirect('/')
+    res.redirect('layout')
   })
   .catch( error =>{
     console.log(error)

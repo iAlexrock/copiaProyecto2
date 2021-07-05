@@ -1,10 +1,10 @@
 const express = require('express')
 const http = require('http');
 const morgan = require("morgan")
-const flash = require('connect-flash');
+
 const session = require('express-session')
 const passport =require('passport');
-
+const flash = require('connect-flash');
 
 /* Uso de layout */
 const expressEjsLayout = require('express-ejs-layouts')
@@ -29,15 +29,25 @@ app.use(expressEjsLayout);
 
 app.use(session ({
   secret : "misecreto",
-  resave : false,
-  saveUninitialized : false
+  resave : true,
+  saveUninitialized : true
 }))
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-/* MAnejo de Sesion 
+
+
 app.use(flash());
+app.use((req,res,next)=>{
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  res.locals.user = req.user || null;
+  next();
+})
+/* MAnejo de Sesion 
+
 
 app.use((req,res,next)=>{
   res.locals.error = req.flash(error);
@@ -75,10 +85,13 @@ const ingreso = require('./routes/SignIn'); //rutas para iniciar sesion
 const organizador = require('./routes/Organizador'); //rutas para iniciar sesion
 const espectador = require('./routes/Espectador');
 const logeo = require('./routes/log');
+const logout = require('./routes/Logout');
 
 app.use('/sign-up' , logeados); //vanessa
 app.use('/sign-in' , ingreso); //eldrick
 app.use('/log' , logeo); //eldrick
+app.use('/logout' , logout); //eldrick
+
 
 app.use('/organizador' , organizador); 
 app.use('/' , espectador); 
