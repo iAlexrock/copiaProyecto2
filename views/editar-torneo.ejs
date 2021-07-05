@@ -1,17 +1,23 @@
 <h1>Editar Jugador</h1>
 
 
-<form  action="editar" method="POST">
+<form  action="editar-torneo" method="POST">
 
-    <p>ID: <input readonly type="text" name="" id="">Sale el ID </p>
-    <p>Numero de participantes maximo: <input readonly type="text" name="" id="">Sale el num de particpantes </p>
-    <p>Tipo de torneo: <input readonly type="text" name="" id="">Todos contra Todos </p>
-    <p>Nombre: <input type="text"></p>
-    <p>Descripcion: <input type="text"></p>
-    <p>Fecha de Inicio: <input type="date"></p>
-    <p>Fecha de Fin: <input type="date"></p>
-    <p>Numero de partidas por dia: <input type="text"></p>
-    
+    <% ltorneos.forEach( function(s){%>
+    <p>ID: <input readonly type="text" name="id"  value="<%= s.id %>" ></p>
+    <p>Numero de participantes maximo: <input readonly type="text" name="" id="" value="<%= s.maxParticipantes %>" >  Sale el num de particpantes </p>
+    <p>Tipo de torneo: <input readonly type="text" name="" id=""  value="Todos contra Todos "></p>
+    <p>Nombre: <input type="text" name="nombre" value="<%= s.nombre %>" >  </p>
+    <p>Descripcion: <input type="text" name="descripcion" value="<%= s.descripcion %>" ></p>
+    <p>Fecha de Inicio: <input type="date" name="fecha_ini" value="<%= s.fecha_ini %>" ></p>
+    <p>Fecha de Fin: <input type="date" name="fecha_fin" value="<%= s.fecha_fin %>" ></p>
+    <p>Numero de partidas por dia: <input type="text" name="partidasxDia" value="<%= s.partidasxDia %>" ></p>
+    <p>Puntaje:</p>   
+    <input type="text" name="puntajeGanar" value="<%= s.puntajeGanar %>" placeholder="partida ganada">
+    <input type="text" name="puntajePerder" value="<%= s.puntajePerder %>" placeholder="partida empatada">
+    <input type="text" name="puntajeEmpatar" value="<%= s.puntajeEmpatar %>" placeholder="partida perdida">
+
+    <%})%>
 
     <input type="submit"  value="Actualizar Torneo" />
 </form>

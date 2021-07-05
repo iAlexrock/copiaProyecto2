@@ -35,7 +35,6 @@ rutas.get('/',(req,res)=>{
       })
 })
 
-
 rutas.get('/torneos',isAuthenticated,(req,res)=>{
   //mostrar torneos
   torneo.findAll( {} )
@@ -90,11 +89,40 @@ rutas.post('/retroceder',(req,res)=>{
   res.redirect('torneos')
 })
 rutas.get('/editar-torneo',(req,res)=>{
-  //muestra la pagina de editar los campos de el torneo seleccionado
-  res.render('editar-torneo')
+  return torneo.findAll({
+        where:{
+            id: req.query.id
+        }
+    })
+    .then(rpta =>{
+        console.log(rpta.id)
+        res.render('editar-torneo',{ltorneos:rpta})
+    })
+    .catch( error =>{
+        console.log(error)
+        res.status(500).send(error)
+    })
 })
-rutas.post('/editar-torneo2',(req,res)=>{
+rutas.post('/editar-torneo',(req,res)=>{
   //envia los campos editados del torneo
+  return torneo.update(
+    {
+      nombre: req.body.nombre,
+      descripcion: req.body.descripcion,
+      fecha_ini: req.body.fecha_ini,
+      fecha_fin: req.body.fecha_fin,
+      partidasxDia: req.body.gananciaAcum,
+      puntajeGanar: req.body.puntajeGanar,
+      puntajePerder: req.body.puntajePerder,
+      puntajeEmpatar: req.body.puntajeEmpatar,
+    },{
+    where:{
+        id:{[Op.eq]:req.body.id}
+    }
+    })
+    .then(rpta =>{
+      res.redirect('torneos')
+    })
 })
 rutas.get('/organizar-torneo',(req,res)=>{
   //muestra pagina con info del torneo junto a botones: "ver equipos","ver fixture","ver tabla  "
