@@ -29,13 +29,32 @@ app.use(session ({
 
 /* Uso de Rutas */
 
+//mongo
+
+const mongoose = require('mongoose');
+
+const user= 'eldrickop';
+const password = 'eldrickop';
+const dbname = 'torneo';
+const uri=`mongodb+srv://${user}:${password}@cluster0.6dovc.mongodb.net/${dbname}?retryWrites=true&w=majority`;
+
+mongoose.connect(uri, 
+    {useNewUrlParser: true, useUnifiedTopology: true}
+    ).then(()=>console.log('base de datos mongo conectada'))
+    .catch(e=> console.log(e));
+
+
+
+
+
+
+
+
 const logeados = require('./routes/SignUp'); //rutas para los usuarios logeados
 const ingreso = require('./routes/SignIn'); //rutas para iniciar sesion
 const organizador = require('./routes/Organizador'); //rutas para iniciar sesion
 const espectador = require('./routes/Espectador');
-//const fixt = require('./routes/fixture');
-//const posi = require('./routes/posiciones');
-//const torneo = require('./routes/torneo');
+
 
 app.use('/sign-up' , logeados); //vanessa
 app.use('/sign-in' , ingreso); //eldrick

@@ -5,7 +5,7 @@ const rutas = express.Router()
 
 const Sequelize = require('sequelize')
 const models= require('../models')
-const  admin= models.Administrador
+//const  admin= models.Administrador
 const lider= models.Lider
 const organizador=models.Organizador
 
