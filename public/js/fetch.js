@@ -1,4 +1,4 @@
-const url_pedir= "http://localhost:3000/consultarTodo" //metodo que usen lideres para ver torneos
+const url_pedir= "http://localhost:3000/espectador" //metodo que usen lideres para ver torneos
 //var VerTorneo
 
 //var VerFixture

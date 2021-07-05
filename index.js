@@ -89,7 +89,7 @@ app.use('/logout' , logout); //eldrick
 
 app.use('/organizador' , organizador); 
 app.use('/organizador' , orgVerTorneos); 
-app.use('/' , espectador); 
+app.use('/espectador' , espectador); 
 
 /*app.use('/' , fixt); 
 app.use('/' , posi); 

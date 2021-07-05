@@ -19,7 +19,7 @@ rutas.use(express.json())
 rutas.use(par.array()) //para multer
 
 
-rutas.get('/consultarTodo',(req,res)=>{
+rutas.get('/',(req,res)=>{
     return torneo.findAll(
         {
             //añadir condicion "solo torneos en curso"
