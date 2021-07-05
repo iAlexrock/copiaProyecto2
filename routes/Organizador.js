@@ -16,7 +16,6 @@ const {isAuthenticated} = require('../helpers/auth')
 
 //MULTER
 const multer = require('multer')
-
 const par = multer()
 
 //Parsing de los datos
@@ -27,9 +26,10 @@ rutas.use(par.array()) //para multer
 
 rutas.get('/torneos',(req,res)=>{
   //mostrar torneos
-})
-rutas.post('/torneos',(req,res)=>{
-  //filtrar torneos
+  torneo.findAll({})
+  .then(rpta=>{
+    res.render('org-torneo')
+  })
 })
 
 rutas.get('/creartorneo',isAuthenticated,(req,res)=>{
@@ -37,8 +37,6 @@ rutas.get('/creartorneo',isAuthenticated,(req,res)=>{
   res.render('creartorneo')
 })
  
-
-
 rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
   //envia los campos del torneo creado
   const aviso = req.body.descripcion
@@ -64,7 +62,7 @@ rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
      
   }).then(rpta =>{
     
-    res.redirect('layout')
+    res.redirect('torneos')
   })
   .catch( error =>{
     console.log(error)
@@ -72,11 +70,14 @@ rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
   })
 })
 
-
+rutas.post('/retroceder',(req,res)=>{
+  res.redirect('torneos')
+})
 rutas.get('/editar-torneo',(req,res)=>{
   //muestra la pagina de editar los campos de el torneo seleccionado
+  res.render('editar-torneo')
 })
-rutas.post('/editar-torneo',(req,res)=>{
+rutas.post('/editar-torneo2',(req,res)=>{
   //envia los campos editados del torneo
 })
 rutas.get('/organizar-torneo',(req,res)=>{

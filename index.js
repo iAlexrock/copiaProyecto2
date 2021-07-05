@@ -73,16 +73,10 @@ mongoose.connect(uri,
     ).then(()=>console.log('base de datos mongo conectada'))
     .catch(e=> console.log(e));
 
-
-
-
-
-
-
-
 const logeados = require('./routes/SignUp'); //rutas para los usuarios logeados
 const ingreso = require('./routes/SignIn'); //rutas para iniciar sesion
 const organizador = require('./routes/Organizador'); //rutas para iniciar sesion
+const orgVerTorneos = require('./routes/Organizador'); //rutas para iniciar sesion
 const espectador = require('./routes/Espectador');
 const logeo = require('./routes/log');
 const logout = require('./routes/Logout');
@@ -94,6 +88,7 @@ app.use('/logout' , logout); //eldrick
 
 
 app.use('/organizador' , organizador); 
+app.use('/organizador' , orgVerTorneos); 
 app.use('/' , espectador); 
 
 /*app.use('/' , fixt); 
