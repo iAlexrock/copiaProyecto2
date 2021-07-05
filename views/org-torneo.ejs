@@ -2,6 +2,39 @@
 <p>El egresado de la Carrera de Ingeniería de Sistemas está preparado para afrontar los retos y las exigencias de las organizaciones, gracias a su capacidad para integrar los procesos de negocios y de proponer, desarrollar, implementar y gestionar soluciones basadas en tecnologías de información.</p>
 <h3> hola </h3>
 
-<form action="editar-torneo">
-    <input type="submit" value="Editar" />
-</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>-- ID -</th>
+            <th>- Nombre -</th>
+            <th>- Descripcion -</th>
+            <th>- Fecha de Inicio -</th>
+            <th>- Fecha de Fin</th>
+            <th>- Num de participantes - </th>
+            <th>- Accion 1 --</th>
+        </tr>
+    </thead>
+    <tbody id="datos">
+             <% ltorneos.forEach( function(elem) { %>
+                <tr>
+                    <td><%= elem.id %></td>
+                    <td><%= elem.nombre %></td>
+                    <td><%= elem.descripcion %></td>
+                    <td><%= elem.fecha_ini %></td>
+                    <td><%= elem.fecha_fin %> </td>
+                    <td><%= elem.maxParticipantes %></td>
+                    <td>Todos contra Todos</td>
+                <td>
+                    <form action="editar-torneo">
+                        <input type="hidden" name="id" value="<%= elem.id %>" />
+                        <input type="submit" value="Editar" />
+                    </form>
+                </td>
+                <td>
+                    
+                </td>
+                </tr>
+             <% }) %>
+     </tbody>
+</table>
+

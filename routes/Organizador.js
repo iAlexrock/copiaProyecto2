@@ -23,13 +23,29 @@ rutas.use(express.urlencoded({extended:true}))
 rutas.use(express.json())
 rutas.use(par.array()) //para multer
 
+var LT = []
+rutas.get('/',(req,res)=>{
+  torneo.findAll( {} )
+      .then(ltorneos =>{
+          LT = ltorneos
+      })
+      .catch( error =>{
+          console.log(error)
+          res.status(500).send(error)
+      })
+})
+
 
 rutas.get('/torneos',isAuthenticated,(req,res)=>{
   //mostrar torneos
-  torneo.findAll({})
-  .then(rpta=>{
-    res.render('org-torneo')
-  })
+  torneo.findAll( {} )
+    .then(rpta=>{
+        res.render('org-torneo',{ltorneos: rpta})
+    })
+    .catch( error =>{
+        console.log(error)
+        res.status(500).send(error)
+    })
 })
 
 rutas.get('/creartorneo',isAuthenticated,(req,res)=>{
