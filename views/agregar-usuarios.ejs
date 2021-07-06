@@ -1,0 +1,25 @@
+
+<h1>CREAR NUEVO USUARIO</h1>
+
+<form  action="crear-usuario" method="POST">
+    Nombre: <input type="text" name="nombre" />
+    <br>
+    Correo Electrónico : <input type="text" name="correo" />
+    <br>
+        
+    Rol: 
+    <select name="rol" >
+        <option value="Admin">Admin</option>
+        <option value="Organizador">Organizador</option>
+        <option value="Participante Líder">Participante Líder</option>
+    </select>
+
+    <br><br>
+    <% if(error == "true") {%>
+   <div name="errores" >Nombre Vacio o ya Usado!!!!</div>
+   <% }  %>   
+   <input type="submit"  value="Agregar" />
+   <input type="submit"  value="Volver Al Inicio" formaction="regresa"/>
+</form>
+
+

@@ -1,0 +1,85 @@
+
+Buscar Usuario <br>
+
+Ingresar Nombre/Correo
+<form action="filtrar" style="display:inline" method="POST">
+    <input type="text" name="filtrado" placeholder="Ingrese datos a filtrar">
+</form>
+&nbsp; &nbsp; &nbsp;
+<form action="ordenar-usuarios" style="display:inline" method="POST">
+    Filtrar Por Rol: 
+    <select name="tipoOrdenado" >
+        <option value="Admin">Admin</option>
+        <option value="Organizador">Organizador</option>
+        <option value="Participante Líder">Participante Líder</option>
+        <option value="Todos">Todos</option>
+    </select>
+
+    <input type="submit" value="Go">
+</form>  
+<br><br>
+
+    <div class="tabla-usuarios" id="tabla-usuarios">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th> Id  </th>
+                    <th> Nombres  </th>
+                    <th> Rol  </th>
+                    <th> Correo  </th>
+                    <th> Accion </th>
+                </tr>
+            </thead>
+            <tbody id="datos">
+                <% ljugadores.forEach(function(elem) { %>
+                    <tr>
+                        <td>
+                            <%= elem.id %>
+                        </td>
+                        <td>
+                            <%= elem.nombre %>
+                        </td>
+                        <td>
+                            <%= elem.rol %>
+                        </td>
+                        <td>
+                            <%= elem.correo %>
+                        </td>
+                        
+                        <% lcasinos.forEach(function(c) { if (c.id==elem.casino) { %>
+                            <td>
+                                <%= c.nombre %>
+                            </td>
+                            <% } %>
+                                <% }) %>
+        
+                                    <td>
+                                        <form action="editar" method="GET">
+                                            <input type="hidden" name="id" value="<%= elem.id %>" />
+                                            <input type="submit" value="Editar" />
+                                        </form>
+                                    </td>
+                    </tr>
+                    <% }) %>
+        
+            </tbody>
+        </table>
+    </div>
+     
+<br><br><br>
+<form action="/admin/crear-usuario" style="display:inline">
+    <input type="submit" value="Crear Nuevo Usuario" />
+    
+</form>
+<br><br>
+
+<form action="agregar" style="display:flex; justify-content: center;">
+   
+    <a href="#" class="previous round">&#8249;</a>
+    <input type="number" name="filtrado" placeholder="Num Pag">
+    <a href="#" class="next round">&#8250;</a>
+    
+   
+</form>
+
+<br><br>

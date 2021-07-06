@@ -1,0 +1,35 @@
+<h1>EDITAR USUARIO</h1>
+
+<% ljugadores.forEach(function(x){%>
+<form  action="editar" method="POST">
+    id: <input type="text" name="idedit" value="<%=x.id%>" readonly>
+    <br>
+    Nombres: <input type="text" name="nombre" />
+    <br>
+    Correo Electrónico : <input type="text" name="correo" />   
+    <br>    
+    Rol: 
+    <select name="rol" >
+        <option value="Admin">Admin</option>
+        <option value="Organizador">Organizador</option>
+        <option value="Participante Líder">Participante Líder</option>
+    </select>
+
+    <br><br>
+   
+   <input type="submit"  value="Agregar" />
+   <input type="submit"  value="Volver Al Inicio" formaction="regresa"/>
+</form>
+<form action="eliminar" method="POST">
+    <input type="hidden" name="id" value="<%=x.id%>"/>
+    <input type="submit" value="Eliminar" />
+    <% if(confirmalo == "true") {%>    
+    <input type="submit" value="¿Segurito?" formaction="confirmar">
+    <% } %>
+
+    <% if(error == "true") {%> 
+        <div name="errores" >Nombre Vacio o ya Usado!!!!</div>
+    <% } %>
+</form>
+<% })  %>  
+

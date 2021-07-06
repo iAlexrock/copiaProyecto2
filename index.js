@@ -80,12 +80,13 @@ const orgVerTorneos = require('./routes/Organizador'); //rutas para iniciar sesi
 const espectador = require('./routes/Espectador');
 const logeo = require('./routes/log');
 const logout = require('./routes/Logout');
+const admin = require('./routes/Admin'); //ruta para entrar como admin
 
 app.use('/sign-up' , logeados); //vanessa
 app.use('/sign-in' , ingreso); //eldrick
 app.use('/log' , logeo); //eldrick
 app.use('/logout' , logout); //eldrick
-
+app.use('/admin',admin); //alejo
 
 app.use('/organizador' , organizador); 
 app.use('/organizador' , orgVerTorneos); 
