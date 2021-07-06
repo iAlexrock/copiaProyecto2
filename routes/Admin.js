@@ -61,57 +61,62 @@ rutas.get('/crear-usuario',(req,res)=>{
 })
 
 rutas.post('/crear-usuario',async (req,res)=>{
+    const {nombre,correo,rol}= req.body;   
+    const password= "12345" 
+
     if(req.body.nombre.length == 0){
+
         res.render('agregar-usuarios', {lcasinos: LC, error: "true"})
     }   
 
     if(req.body.rol=="Admin"){
-        usuario.create({
-            nombre: req.body.nombre,                
-            correo: req.body.correo, 
-            rol: req.body.rol,
-            password:"12345"
-        }) 
-        .then(rpta=>{
+       const nuevousuario = new usuario({
+            nombre: nombre,                
+            correo: correo, 
+            rol: rol,
+            password: password         
+        })       
+            nuevousuario.password =  await nuevousuario.encryptPassword(password);   
+            await nuevousuario.save(); 
             res.redirect('/admin/consultar-usuarios')
-        })                 
+                       
     }
     else if(req.body.rol=="Organizador"){
-        usuario.create({
-            nombre: req.body.nombre,                
-            correo: req.body.correo,
-            rol: req.body.rol,
-            password:"12345"             
+        const nuevousuario= new usuario({
+            nombre: nombre,                
+            correo: correo,
+            rol: rol,
+            password: password             
         })    
-        .then(rpta=>{
-            res.redirect('/admin/consultar-usuarios')
-        })              
+        nuevousuario.password =  await nuevousuario.encryptPassword(password);   
+        await nuevousuario.save(); 
+        res.redirect('/admin/consultar-usuarios')             
     }
     else{
         equipo.create({
             nombre:"Equipo",
             integrantes: null
         }).then(rpta=>{
-            usuario.create({
-                nombre: req.body.nombre,
-                correo: req.body.correo,  
-                rol: req.body.rol,  
-                password:"12345",
+            const nuevousuario= new usuario({
+                nombre: nombre,
+                correo: correo,  
+                rol: rol,  
+                password: password,
                 IdEquipo:rpta.id
-            })
-            .then(rpta=>{
-                res.redirect('/admin/consultar-usuarios')
-            
-            })
-        })                      
-    }       
+            })              
+        })    
+        nuevousuario.password =  await nuevousuario.encryptPassword(password);   
+        await nuevousuario.save(); 
+        res.redirect('/admin/consultar-usuarios')                  
+    } 
+         
         
 })
 
 
 rutas.post('/filtrar-usuarios', (req,res)=>{
     //FILTRAR POR NOMBRE/CORREO Y ROL
-    lista.findAll(
+    usuario.find(
         {
             where: {
                 [Op.or]:{
@@ -140,7 +145,7 @@ rutas.post('/filtrar-usuarios', (req,res)=>{
 //ORDENAR
 rutas.post('/ordenar-usuarios', (req,res) =>{
     if(req.body.tipoOrdenado == "Admin"){
-            lista.findAll(
+            usuario.find(
             {
                 where: {rol:{[Op.eq]: req.body.tipoOrdenado}}
                 
@@ -159,7 +164,7 @@ rutas.post('/ordenar-usuarios', (req,res) =>{
             })
     }   
     else if(req.body.tipoOrdenado == "Organizador"){
-        lista.findAll(
+        usuario.findAll(
             {
                 where: {rol:{[Op.eq]: req.body.tipoOrdenado}}
                 
@@ -178,7 +183,7 @@ rutas.post('/ordenar-usuarios', (req,res) =>{
             })
     }    
     else if(req.body.tipoOrdenado == "Participante Líder"){
-        lista.findAll(
+        usuario.findAll(
             {
                 where: {rol:{[Op.eq]: req.body.tipoOrdenado}}
                 

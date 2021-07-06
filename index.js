@@ -86,7 +86,7 @@ app.use('/sign-up' , logeados); //vanessa
 app.use('/sign-in' , ingreso); //eldrick
 app.use('/log' , logeo); //eldrick
 app.use('/logout' , logout); //eldrick
-app.use('/admin',admin); //alejo
+app.use('/admin',admin); //alejo <3 
 
 app.use('/organizador' , organizador); 
 app.use('/organizador' , orgVerTorneos); 
