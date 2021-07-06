@@ -85,7 +85,7 @@ rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
   })
 })
 
-rutas.post('/retroceder',(req,res)=>{
+rutas.get('/retroceder',(req,res)=>{
   res.redirect('torneos')
 })
 rutas.get('/editar-torneo',(req,res)=>{
@@ -125,6 +125,7 @@ rutas.post('/editar-torneo',(req,res)=>{
     })
 })
 rutas.get('/organizar-torneo',(req,res)=>{
+  res.render('organizador-organizart')
   //muestra pagina con info del torneo junto a botones: "ver equipos","ver fixture","ver tabla  "
 })
 rutas.get('/ver-equipos-torneo',(req,res)=>{
