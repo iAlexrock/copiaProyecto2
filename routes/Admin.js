@@ -96,18 +96,20 @@ rutas.post('/crear-usuario',async (req,res)=>{
         equipo.create({
             nombre:"Equipo",
             integrantes: null
-        }).then(rpta=>{
+        }).then(async rpta=>{
             const nuevousuario= new usuario({
                 nombre: nombre,
                 correo: correo,  
                 rol: rol,  
                 password: password,
                 IdEquipo:rpta.id
-            })              
-        })    
-        nuevousuario.password =  await nuevousuario.encryptPassword(password);   
-        await nuevousuario.save(); 
-        res.redirect('/admin/consultar-usuarios')                  
+            })
+            
+                nuevousuario.password =  await nuevousuario.encryptPassword(password);   
+                await nuevousuario.save();
+                res.redirect('/admin/consultar-usuarios')            
+            
+        })                      
     } 
          
         
