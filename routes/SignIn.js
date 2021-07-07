@@ -28,10 +28,6 @@ rutas.use(par.array()) //para multer
 //logeo de ususarios sign-up 2 
 
 
-
-
-
-
 //inicio sesion
 rutas.get('/',(req,res)=>{
   let errors = [];
@@ -41,12 +37,9 @@ rutas.get('/',(req,res)=>{
 
 
 rutas.post('/', passport.authenticate('local', {
-    successRedirect: '/',    
+    successRedirect: '/organizador/torneos',    
     failureRedirect: '/sign-in',
     failureFlash: true
   }));
-
-
-
 
 module.exports =rutas

@@ -85,9 +85,11 @@ rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
   })
 })
 
-rutas.get('/retroceder',(req,res)=>{
+rutas.post('/retroceder',(req,res)=>{
   res.redirect('torneos')
 })
+
+
 rutas.get('/editar-torneo',(req,res)=>{
   return torneo.findAll({
         where:{
