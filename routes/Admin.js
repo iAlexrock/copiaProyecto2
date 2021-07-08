@@ -103,12 +103,10 @@ rutas.post('/crear-usuario',async (req,res)=>{
                 rol: rol,  
                 password: password,
                 IdEquipo:rpta.id
-            })
-            
+            })            
                 nuevousuario.password =  await nuevousuario.encryptPassword(password);   
                 await nuevousuario.save();
                 res.redirect('/admin/consultar-usuarios')            
-            
         })                      
     } 
          
@@ -195,16 +193,13 @@ rutas.get('/editar-usuario', (req,res)=>{
     
     usuario.find(
         {
-            id: req.query.id            
+            _id: req.query.id            
         })
         .then(rpta=>{
             console.log(rpta)
-            res.render('editar-usuarios',{lcasinos: LC, ljugadores: rpta, confirmalo: "false", error:"false"})
+            res.render('editar-usuarios',{lcasinos: LC, ljugadores: rpta, })
         })
-        .catch(error => {
-            console.log(error)
-            res.status(500).send(error)
-        })
+        
 })
 
 rutas.post('/editar-usuario', (req,res)=>{
