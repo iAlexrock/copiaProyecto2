@@ -1,28 +1,37 @@
-<!--Paramteros: nombre,correo,contrasena,equipo, errorcorreo,errorequipo-->
-<h1>Registrarse</h1>
 
-<form  action="sign-up" method="POST">
-<p>Nombre Completo:
-<input type="text" name="nombre" value="<%=nombre%>"></p>
-
-<% if (errorcorreo==true){%>
-    <span class="error">Correo mal ingresado</span>  <!--poner color rojo y letra mas pequeña-->
+   <% errors.forEach( function(c)  {  %>
     
-<%}%>
-<p>Correo electrónico:
-<input type="text" name="correo" value="<%=correo%>"></p>
-
-<p>Contraseña:
-<input type="text" name="contrasena" value="<%=contrasena%>"></p>
-
-<% if (errorequipo==true){%>
-    <p class="error">Nombre equipo ya existente</p>  <!--poner color rojo y letra mas pequeña-->
-<%}%>
-<p>Equipo:
-<input type="text" name="nombreequipo" value="<%=equipo%>"></p>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%= c.text%>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+<%}) %>   
 
 
-<input type="submit"  value="Enviar" />
 
-</form><button href="http://www.ulima.edu.pe">Volver</button>
 
+<div>
+<h1>logg admin SESION</h1>
+
+<form action="log" method="POST">
+    <div class="form-group">
+    <input type="text" class="form-control" name="nombre" placeholder="Name" value="">
+    </div>
+    <div class="form-group">
+      <input type="email" class="form-control" name="correo" placeholder="Email" value="">
+    </div>
+    <div class="form-group">
+      <input type="password" class="form-control" name="password" placeholder="Password" value="">
+    </div>
+    <div class="form-group">
+      <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" value="">
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" name="nombreequipo" placeholder="Nombre de equipo" value="">
+      </div>
+    <button class="btn btn-primary btn-block">
+      Signup 
+    </button>
+  </form>
+</div>

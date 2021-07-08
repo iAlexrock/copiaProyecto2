@@ -76,20 +76,21 @@ mongoose.connect(uri,
 const logeados = require('./routes/SignUp'); //rutas para los usuarios logeados
 const ingreso = require('./routes/SignIn'); //rutas para iniciar sesion
 const organizador = require('./routes/Organizador'); //rutas para iniciar sesion
-const orgVerTorneos = require('./routes/Organizador'); //rutas para iniciar sesion
 const espectador = require('./routes/Espectador');
 const logeo = require('./routes/log');
 const logout = require('./routes/Logout');
 const admin = require('./routes/Admin'); //ruta para entrar como admin
+const lider = require('./routes/Lider'); //rutas para entrar como lider
 
-app.use('/sign-up' , logeados); //vanessa
+
+///app.use('/sign-up' , logeados); //vanessa
 app.use('/sign-in' , ingreso); //eldrick
 app.use('/log' , logeo); //eldrick
 app.use('/logout' , logout); //eldrick
 app.use('/admin',admin); //alejo <3 
+app.use('/lider',lider);
 
 app.use('/organizador' , organizador); 
-app.use('/organizador' , orgVerTorneos); 
 app.use('/espectador' , espectador); 
 
 /*app.use('/' , fixt); 

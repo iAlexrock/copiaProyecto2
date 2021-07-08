@@ -31,6 +31,7 @@ rutas.get('/',(req,res)=>{
 rutas.post('/',(req,res)=>{
     //agregar a tabla participante lider
     //error si ya fue usado
+    var inicio= new Date()
     nombre= req.body.nombre
     correo=req.body.correo
     password=req.body.contrasena
@@ -47,6 +48,7 @@ rutas.post('/',(req,res)=>{
                 errorequipo=true
             }
             //
+            console.log("tiempo demora 2:", new Date-inicio)
 
         if(errorcorreo==true || errorequipo==true){
             //volver a cargar la pagina de registo mostrando los mensajes de erro
