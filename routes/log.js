@@ -27,51 +27,66 @@ rutas.use(par.array()) //para multer
 
 
 //logeo de ususarios sign-up 2 
-
+var inicio
 
 rutas.get('/',(req,res)=>{
     let errors = [];
 
-    res.render('logeo',{errors, layout: '../layouts/Signin' })
+    res.render('sign-up',{errors, layout: '../layouts/Signin' })
 })
 
 
 rutas.post('/',async (req,res)=>{
+  
     let errors = [];
-    const {nombre,correo,password,confirm_password}= req.body;
+    const {nombre,correo,password,confirm_password,nombreequipo}= req.body;
 
     if(password != confirm_password) {
-        errors.push({text: 'las Ccntraseñas no coinciden'});
+        errors.push({text: 'Las contraseñas no coinciden.'});
       }
     if(password.length == 0) {
-        errors.push({text: 'La contraseña es muy corta'})
+        errors.push({text: 'La contraseña es muy corta.'})
       }
     if(nombre ==""){
-        errors.push({text: 'nombre en blanco'});
+        errors.push({text: 'El nombre está en blanco.'});
       }
     if(correo ==""){
-        errors.push({text: 'correo en blanco'});
+        errors.push({text: 'El correo está en blanco.'});
       }
     if(password ==""){
-        errors.push({text: 'password en blanco'});
+        errors.push({text: 'La contraseña está en blanco.'});
       }
-
+      if(equipo==""){
+        errors.push({text:'El nombre del equipo está en blanco.'})
+      }
+    
 
     if(errors.length > 0){
-        res.render('logeo', {errors, layout: '../layouts/Signin' });
+        res.render('sign-up', {errors, layout: '../layouts/Signin' });
     }else{
         //validacion de correo
-        const usuariocorreo = await usuario.findOne({correo:correo})
-        if(usuariocorreo){
-            errors.push({text: 'Contraseña ya usada mamabicho, no es necesario logearte nuevamente '});
-            res.render('ingreso',{errors,layout: '../layouts/Signin' })
+        const usuariocorreo = await usuario.findOne({correo:correo}) //buscar coincidencias de correo en la BD
+        const equipousado= await equipo.findOne({where:{nombre:nombreequipo}})//buscar coincidencias nombre equipo
+        if(usuariocorreo){ //si se encuentra usuario
+            errors.push({text: 'Correo ya registrado.'});
+        }
+        if(equipousado){
+          errors.push({text: 'Nombre de equipo ya registrado.'})
+        }
+
+        if (errors.length>0){
+          res.render('sign-up',{errors,layout: '../layouts/Signin' })
         }
         else{
-            const nuevousuario=  new usuario({nombre,correo,password});
+
+            const nuevousuario=  new usuario({nombre,correo,password,rol:'Participante Líder', equipo:nombreequipo});
             nuevousuario.password =  await nuevousuario.encryptPassword(password);
             await nuevousuario.save();
-            req.flash('success_msg', 'usuario  creado correctamente');
-            res.redirect('/organizador/creartorneo')
+            await equipo.create({
+              nombre:nombreequipo,
+              integrantes: null})
+            req.flash('success_msg', 'usuario y equipo creados correctamente');
+            res.redirect('/')
         
         }
       }

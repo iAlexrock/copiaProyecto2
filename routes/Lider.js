@@ -20,8 +20,11 @@ rutas.use(express.urlencoded({extended:true}))
 rutas.use(express.json())
 rutas.use(par.array()) //para multer
 
-
+rutas.get('/', (req,res)=>{
+    res.redirect('lider/torneos')
+})
 rutas.get('/torneos',(req,res)=>{
+    res.render('lider-vistatorneos')
     //mostrar listado de  torneos, si no se está inscrito aparece boton "incribirse"
 })
 rutas.post('/torneos',(req,res)=>{
