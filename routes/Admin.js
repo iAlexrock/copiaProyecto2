@@ -120,14 +120,10 @@ rutas.post('/filtrar-usuarios', (req,res)=>{
     //FILTRAR POR NOMBRE/CORREO Y ROL
     usuario.find(
         {
-            where: {
-                [Op.or]:{
-                nombre:   {[Op.eq]: req.body.filtrado},
-                correo : {                    
-                    [Op.eq]: req.body.filtrado                
-                } 
-                }     
-            }            
+           $or:[{nombre: new RegExp('^'+ req.body.filtrado + '$',"i")}, 
+                {correo:   new RegExp('^'+ req.body.filtrado + '$',"i")},
+                {correo: {$regex: req.body.filtrado, $options: "i"} },
+                {nombre: {$regex: req.body.filtrado, $options: "i"} }]                        
         })
 
         .then(rpta =>{
@@ -144,79 +140,51 @@ rutas.post('/filtrar-usuarios', (req,res)=>{
         })    
 })
 
+
 //ORDENAR
 rutas.post('/ordenar-usuarios', (req,res) =>{
+    
     if(req.body.tipoOrdenado == "Admin"){
             usuario.find(
             {
-                where: {rol:{[Op.eq]: req.body.tipoOrdenado}}
+               rol: 'Admin'
                 
             })
             .then(rpta => {
-                if (rpta == '') {
-                    res.redirect('/admin/consultar-usuarios')
-                }
-                else {
-                    res.render('listado-usuarios', { lcasinos: LC, ljugadores: rpta })
-                }
-            })
-            .catch(error => {
-                console.log(error)
-                res.status(500).send(error)
-            })
+                
+                res.render('listado-usuarios', { lcasinos: LC, ljugadores: rpta })
+                
+            })            
     }   
     else if(req.body.tipoOrdenado == "Organizador"){
-        usuario.findAll(
+        usuario.find(
             {
-                where: {rol:{[Op.eq]: req.body.tipoOrdenado}}
+               rol: 'Organizador'
                 
             })
             .then(rpta => {
-                if (rpta == '') {
-                    res.redirect('/admin/consultar-usuarios')
-                }
-                else {
-                    res.render('listado-usuarios', { lcasinos: LC, ljugadores: rpta })
-                }
-            })
-            .catch(error => {
-                console.log(error)
-                res.status(500).send(error)
+                
+                res.render('listado-usuarios', { lcasinos: LC, ljugadores: rpta })
+                
             })
     }    
     else if(req.body.tipoOrdenado == "Participante Líder"){
-        usuario.findAll(
+        usuario.find(
             {
-                where: {rol:{[Op.eq]: req.body.tipoOrdenado}}
+               rol: 'Participante Líder'
                 
             })
             .then(rpta => {
-                if (rpta == '') {
-                    res.redirect('/admin/consultar-usuarios')
-                }
-                else {
-                    res.render('listado-usuarios', { lcasinos: LC, ljugadores: rpta })
-                }
-            })
-            .catch(error => {
-                console.log(error)
-                res.status(500).send(error)
+                
+                res.render('listado-usuarios', { lcasinos: LC, ljugadores: rpta })
+                
             })
     }
     else{
-        lista.findAll({})
-        .then(rpta => {
-            if (rpta == '') {
-                res.redirect('/admin/consultar-usuarios')
-            }
-            else {
-                res.render('listado-usuarios', { lcasinos: LC, ljugadores: rpta })
-            }
-        })
-        .catch(error => {
-            console.log(error)
-            res.status(500).send(error)
-        })
+        usuario.find({})
+        .then(rpta => {            
+            res.redirect('/admin/consultar-usuarios')                 
+        })        
     }       
 })
 
@@ -224,34 +192,36 @@ rutas.post('/ordenar-usuarios', (req,res) =>{
 rutas.get('/editar-usuario', (req,res)=>{
     //ABRIR PAGINA EDITAR
     //ESCRIBIR LOS DATOS A EDITAR
-    lista.findAll(
+    
+    usuario.find(
         {
-            where: {id: req.query.id}            
+            id: req.query.id            
         })
         .then(rpta=>{
+            console.log(rpta)
             res.render('editar-usuarios',{lcasinos: LC, ljugadores: rpta, confirmalo: "false", error:"false"})
         })
         .catch(error => {
             console.log(error)
             res.status(500).send(error)
         })
-
 })
+
 rutas.post('/editar-usuario', (req,res)=>{
     //ENVIAR DATOS DE USUARIO EDITADO
     //CONFIRMAR QUE CORREO NO ESTE REGISTRADO PREVIAMENTE
     //mostrar mensaje de error en todo caso (no pop up)
     //res.redirect a listado de usuarios
     if(req.body.nombre.length==0){
-        return lista.findAll({
-            where: {id:req.body.idedit}
+        return usuario.find({
+           id:req.body.idedit
         })
         .then(rpta=>{
             res.render('editar-usuarios', {lcasinos: LC,ljugadores:rpta,confirmalo:"false" ,error: "true"})
         })        
     }
 
-    return lista.update({
+    /*return usuario.find({
         nombre: req.body.nombre,
         rol: req.body.rol,
         correo: req.body.correo      
@@ -268,6 +238,8 @@ rutas.post('/editar-usuario', (req,res)=>{
             console.log(error)
             res.status(500).send(error)
         })
+
+    */
 })
 
 module.exports =rutas
