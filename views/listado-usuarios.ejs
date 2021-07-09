@@ -31,7 +31,7 @@ Ingresar Nombre/Correo
                 </tr>
             </thead>
             <tbody id="datos">
-                <% lusuarios.forEach(function(elem) { %>
+                <% usuarios.forEach(function(elem) { %>
                     <tr>
                         <td>
                             <%= elem.id %>
@@ -46,9 +46,9 @@ Ingresar Nombre/Correo
                             <%= elem.correo %>
                         </td>                                
                                     <td>
-                                        <form action="editar-usuario" method="GET">
+                                        <form action="/admin/editar-usuario" method="GET">
                                             <input type="hidden" name="id" value="<%= elem.id %>" />
-                                            <input type="submit" value="Editar" />
+                                            <input type="submit" value="Editar" />                                            
                                         </form>
                                     </td>
                     </tr>
@@ -57,6 +57,46 @@ Ingresar Nombre/Correo
             </tbody>
         </table>
     </div>
+
+    <% if(pages){ %>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-md-end">
+                <% if(current==1) {%>
+                    <li class="page-item disabled"><a href="#" class="page-link">First Page</a> </li>
+                    <li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>                
+                <% } else{ %>
+                    <li class="page-item "><a href="/admin/consultar-usuarios/1" class="page-link">First Page</a> </li>
+                    <li class="page-item "><a href="/admin/consultar-usuarios/<%- Number(current)-1%>" class="page-link">Previous</a></li>                 
+                <% }%>
+                <% var i=(Number(current)>5?Number(current)-4:1)%>
+                <% if(i!==1){%>
+                    <a href="#" class="page-link">...</a>
+                <%}%>
+
+                <%for(i;i<=(Number(current)+4) && i<=pages;i++ ){%>
+                    <%if(i==current){%>
+                        <li class="page-item"><a href="#" class="page-link"><%= i %></a></li>
+                    <%} else{%>
+                        <li class="page-item"><a href="/admin/consultar-usuarios/<%=i %>" class="page-link"><%= i %></a></li>
+                    <%}%>
+                    <% if(i==Number(current)+4 && i < pages){%>
+                        <a href="#" class="page-link">...</a>
+                    <%}%>                    
+                <%}%>
+                <% if(current==pages) {%>
+                    <li class="page-item disabled"><a href="#" class="page-link">Next</a></li> 
+                    <li class="page-item disabled"><a href="#" class="page-link">Last Page</a> </li>
+                <%}else{%>
+                    <li class="page-item "><a href="/admin/consultar-usuarios/<%- Number(current)+1%>" class="page-link">Next</a></li>
+                    <li class="page-item "><a href="/admin/consultar-usuarios/<%=pages%>" class="page-link">Last Page</a> </li>
+                <%}%>
+
+            </ul>
+        </nav>
+
+
+    <% } %>
+
      
 <br><br><br>
 <form action="/admin/crear-usuario" style="display:inline">
@@ -65,12 +105,7 @@ Ingresar Nombre/Correo
 </form>
 <br><br>
 
-<form action="agregar" style="display:flex; justify-content: center;">
-   
-    <a href="#" class="previous round">&#8249;</a>
-    <input type="number" name="filtrado" placeholder="Num Pag">
-    <a href="#" class="next round">&#8250;</a>       
-</form>
+
 
 <br><br>
 
