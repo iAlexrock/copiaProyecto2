@@ -18,6 +18,8 @@ const organizador=models.Organizador
 
 const {Op}= require("sequelize")
 
+const {isAuthenticated} = require('../helpers/auth')
+
 //MULTER
 const multer = require('multer')
 const par = multer()
