@@ -93,16 +93,21 @@ rutas.post('/editar-equipo',async(req,res)=>{
 
     if (errors.length>0){
         res.render('editar-equipo',{errors})
-      }else{
-        usuario.findOneAndUpdate(
-            {_id: req.body.idU},
-            {
-                equipo: req.body.equipo
-            },
+      }else{ 
+        await usuario.findOneAndUpdate({
+            _id: req.body.idU},
+            {equipo: req.body.equipo},
             {runValidators:true})
-            .then(rpta=>{
-                res.redirect('torneos')
-            })
+
+        await equipo.update({
+            nombre: req.body.equipo,
+            integrantes: req.body.integrantes
+        },{
+            where:{
+                id:{[Op.eq]:req.body.equipo}
+            }
+        })
+        res.redirect('torneos')
         }
     //mostrar listado de  torneos, si no se está inscrito aparece boton "incribirse"
 })
