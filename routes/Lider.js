@@ -2,13 +2,14 @@ const express = require("express")
 const bodyParser= require("body-parser")
 
 const rutas = express.Router()
-
+var mongoose = require('mongoose');
 const Sequelize = require('sequelize')
 const models= require('../models')
 //const  admin= models.Administrador
 const lider= models.Lider
 const organizador=models.Organizador
-
+const usuario=require('../models/usuario')
+const torneo=models.Torneo
 const {Op}= require("sequelize")
 
 //MULTER
@@ -20,34 +21,95 @@ rutas.use(express.urlencoded({extended:true}))
 rutas.use(express.json())
 rutas.use(par.array()) //para multer
 
+var LT = []
 rutas.get('/', (req,res)=>{
-    res.redirect('lider/torneos')
+    torneo.findAll( {} )
+      .then(ltorneos =>{
+          LT = ltorneos
+      })
 })
+
+
 rutas.get('/torneos',(req,res)=>{
-    res.render('lider-vistatorneos')
+    
+    torneo.findAll( {} )
+    .then(rpta=>{
+        res.render('lider-vistatorneos',{ ltorneos: rpta})
+    })
+      
+})
+
+rutas.get('/editar-perfil',(req,res)=>{
+    let errors = [];
+    usuario.find(
+        {
+            id: req.query.id            
+        })
+        .then(rpta=>{
+            console.log(rpta)
+            res.render('editar-perfil',{errors})
+        })
+})
+
+rutas.post('/editar-perfil',async (req,res)=>{
+    let errors = [];
+    const usuariocorreo = await usuario.findOne({correo: req.body.correo}) 
+    if (usuariocorreo){
+        errors.push({text: 'Correo ya registrado'})
+    }
+
+    if (errors.length>0){
+        res.render('editar-perfil',{errors})
+      }else{
+        usuario.findOneAndUpdate( 
+            {_id: req.body.idU},
+    
+            {   
+                nombre: req.body.nombre,
+                correo: req.body.correo,
+                password: req.body.contra
+            },  
+            {runValidators:true}       
+        )   
+        .then(rpta=>{
+                console.log(rpta)
+                res.redirect('torneos')
+        }) 
+      }
+})
+
+rutas.get('/editar-equipo',(req,res)=>{
+    let errors = [];
+    res.render('editar-equipo',{errors})
+
+})
+
+rutas.post('/editar-equipo',async(req,res)=>{
+    let errors = [];
+    const usuarioequipo = await usuario.findOne({equipo: req.body.equipo}) 
+    if (usuarioequipo){
+        errors.push({text: 'Equipo ya registrado'})
+    }
+
+    if (errors.length>0){
+        res.render('editar-equipo',{errors})
+      }else{
+        usuario.findOneAndUpdate(
+            {_id: req.body.idU},
+            {
+                equipo: req.body.equipo
+            },
+            {runValidators:true})
+            .then(rpta=>{
+                res.redirect('torneos')
+            })
+        }
     //mostrar listado de  torneos, si no se está inscrito aparece boton "incribirse"
 })
-rutas.post('/torneos',(req,res)=>{
-    //filtrar torneos
+
+rutas.post('/retroceder-lider',(req,res)=>{
+    res.redirect('torneos')
+    //mostrar listado de  torneos, si no se está inscrito aparece boton "incribirse"
 })
-rutas.get('/ver-tabla-torneo',(req,res)=>{
-    //mostrar posicion de equipos relativa a torneo
-})
-rutas.get('/ver-fixture',(req,res)=>{
-    //ver fixture
-})
-rutas.get('/perfil',(req,res)=>{
-    //ver perfil y su info, poder hacer cambios
-})
-rutas.post('/perfil',(req,res)=>{
-    //guardar cambios de perfil
-    //mostrar error si correo ya ha sido elegido
-})
-rutas.get('/mi-equipo',(req,res)=>{
-    //mostrar daos del equipo, hacer cambios
-    //boton guardar
-})
-rutas.post('mi-equipo',(req,res)=>{
-    //mostrar error si al guardar el nombre del equipo ya ha sido usado.
-})
+
 module.exports =rutas
