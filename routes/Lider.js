@@ -84,7 +84,7 @@ rutas.get('/editar-equipo',(req,res)=>{
     var LE = []
     equipo.findOne({where: {id:req.user.equipo}}
         ).then(rpta =>{
-            res.render('editar-equipo',{errors, lequipo:rpta,LE:lequipo})
+            res.render('editar-equipo',{errors, lequipo:rpta})
         })
 })
 
