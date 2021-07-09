@@ -99,9 +99,9 @@ rutas.post('/editar-perfil',async (req,res)=>{
     }
 })
 var LE = []
-let errors = []
+
 rutas.get('/editar-equipo',(req,res)=>{
-    
+    let errors = []
     
     equipo.findOne({where: {id:req.user.equipo}}
         ).then(rpta =>{
@@ -111,7 +111,7 @@ rutas.get('/editar-equipo',(req,res)=>{
 })
 
 rutas.post('/editar-equipo',async(req,res)=>{
-
+    let errors = [];
     equipo.findAll({
         where:{
             nombre:req.body.nombreEquipo,

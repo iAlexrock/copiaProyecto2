@@ -54,8 +54,9 @@ rutas.get('/torneos',isAuthenticated,(req,res)=>{
 })
 
 rutas.get('/creartorneo',isAuthenticated,(req,res)=>{
+  let errors = []
   //muestra pagina de creacion de torneo
-  res.render('creartorneo',{listatorneos: LT,error:'False'})
+  res.render('creartorneo',{listatorneos: LT,errors})
 })
  
 rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
@@ -67,8 +68,9 @@ rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
   {
     console.log("aviso tabla creada bien")
   } */
+  let errors = [];
   if(req.body.nombre.length==0){
-    res.render('creartorneo',{listatorneos: LT,error:'True'})
+    res.render('creartorneo',{listatorneos: LT,errors})
   }else{
     torneo.findAll({
       where:{
@@ -76,7 +78,8 @@ rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
       }
     }).then(rpta =>{
       if(rpta.length!=0){
-        res.render('creartorneo',{listatorneos: LT,error:'True'})
+        errors.push({text: 'Nombre de Torneo ya registrado.'});
+        res.render('creartorneo',{listatorneos: LT,errors})
       }else{
         torneo.create({
           nombre: req.body.nombre,
@@ -110,6 +113,7 @@ rutas.get('/retroceder',(req,res)=>{
 })
 var LTor = []
 rutas.get('/editar-torneo',(req,res)=>{
+  let errors = [];
   return torneo.findAll({
         where:{
             id: req.query.id
@@ -118,7 +122,7 @@ rutas.get('/editar-torneo',(req,res)=>{
     .then(rpta =>{
         console.log(rpta.id)
         LTor = rpta
-        res.render('editar-torneo',{ltorneos:LTor})
+        res.render('editar-torneo',{ltorneos:LTor,errors})
     })
     .catch( error =>{
         console.log(error)
@@ -127,6 +131,7 @@ rutas.get('/editar-torneo',(req,res)=>{
 })
 rutas.post('/editar-torneo',(req,res)=>{
   //envia los campos editados del torneo
+  let errors = [];
   torneo.findAll({
     where:{
       nombre:req.body.nombre,
@@ -134,13 +139,14 @@ rutas.post('/editar-torneo',(req,res)=>{
     }
   }).then(rpta =>{
     if(rpta.length!=0){
+      errors.push({text: 'Nombre de Torneo ya registrado.'});
       return torneo.findAll({
           where:{
               id:req.body.id
           }
       }).then(rpta =>{
           console.log(rpta.id),
-          res.render('editar-torneo',{ltorneos:LTor})
+          res.render('editar-torneo',{ltorneos:LTor,errors})
       })
   }else{
     return torneo.update(
