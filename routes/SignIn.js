@@ -37,7 +37,7 @@ rutas.get('/',(req,res)=>{
 
 
 rutas.post('/', passport.authenticate('local', {
-    successRedirect: '/organizador/torneos',    
+    successRedirect: '/lider',    
     failureRedirect: '/sign-in',
     failureFlash: true
   }));

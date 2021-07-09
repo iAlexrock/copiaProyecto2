@@ -134,6 +134,9 @@ rutas.get('/organizar-torneo',(req,res)=>{
   res.render('organizador-organizart')
   //muestra pagina con info del torneo junto a botones: "ver equipos","ver fixture","ver tabla  "
 })
+
+
+
 rutas.get('/ver-equipos-torneo',(req,res)=>{
   //Mostrar listado de equipos
   //se puede seleccionar el estado de cada equipo en el torneo

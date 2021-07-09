@@ -2,12 +2,13 @@ const express = require("express")
 const bodyParser= require("body-parser")
 
 const rutas = express.Router()
-
+var mongoose = require('mongoose');
 const Sequelize = require('sequelize')
 const models= require('../models')
 //const  admin= models.Administrador
 const lider= models.Lider
 const organizador=models.Organizador
+const usuario=require('../models/usuario')
 
 const {Op}= require("sequelize")
 
@@ -23,31 +24,63 @@ rutas.use(par.array()) //para multer
 rutas.get('/', (req,res)=>{
     res.redirect('lider/torneos')
 })
+
+
 rutas.get('/torneos',(req,res)=>{
     res.render('lider-vistatorneos')
+})
+
+rutas.get('/editar-perfil',(req,res)=>{
+    usuario.find(
+        {
+            id: req.query.id            
+        })
+        .then(rpta=>{
+            console.log(rpta)
+            res.render('editar-perfil')
+        })
+})
+
+rutas.post('/editar-perfil',(req,res)=>{
+    usuario.findOneAndUpdate( 
+        {_id: req.body.idU},
+
+        {   
+            nombre: req.body.nombre,
+            correo: req.body.correo,
+            password: req.body.contra
+        },  
+        {runValidators:true}       
+    )   
+    .then(rpta=>{
+            console.log(rpta)
+            res.redirect('torneos')
+    }) 
+
+})
+
+rutas.get('/editar-equipo',(req,res)=>{
+
+    res.render('editar-equipo')
+
+})
+
+rutas.post('/editar-equipo',(req,res)=>{
+    usuario.findOneAndUpdate(
+        {_id: req.body.idU},
+        {
+            equipo: req.body.equipo
+        },
+        {runValidators:true})
+        .then(rpta=>{
+            res.redirect('torneos')
+        })
     //mostrar listado de  torneos, si no se está inscrito aparece boton "incribirse"
 })
-rutas.post('/torneos',(req,res)=>{
-    //filtrar torneos
+
+rutas.post('/retroceder-lider',(req,res)=>{
+    res.redirect('torneos')
+    //mostrar listado de  torneos, si no se está inscrito aparece boton "incribirse"
 })
-rutas.get('/ver-tabla-torneo',(req,res)=>{
-    //mostrar posicion de equipos relativa a torneo
-})
-rutas.get('/ver-fixture',(req,res)=>{
-    //ver fixture
-})
-rutas.get('/perfil',(req,res)=>{
-    //ver perfil y su info, poder hacer cambios
-})
-rutas.post('/perfil',(req,res)=>{
-    //guardar cambios de perfil
-    //mostrar error si correo ya ha sido elegido
-})
-rutas.get('/mi-equipo',(req,res)=>{
-    //mostrar daos del equipo, hacer cambios
-    //boton guardar
-})
-rutas.post('mi-equipo',(req,res)=>{
-    //mostrar error si al guardar el nombre del equipo ya ha sido usado.
-})
+
 module.exports =rutas
