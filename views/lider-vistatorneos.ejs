@@ -28,21 +28,10 @@ TABLA DE TORNEOS
                         <input type="submit" value="Ver">
                     </form></td>
                 <td>
-                    <% var inscrito= false 
-                    linscrito.forEach(function(c){
-                        if(elem.id == c.IdTorneo){ 
-                            inscrito= true
-                        }})%>
-                    <%if (inscrito){%>
-                        Inscrito
-                        <%} else{%>
                             <form action="inscripcion" method ="GET">
                             <input type="hidden" name="id" value="<%= elem.id %>" />
                             <input type="submit" value="Inscribirnos" />
                             </form>
-                        <%}%>
-                
-                    
                 </td>
                 </tr>
                 <%}) %>

@@ -10,7 +10,7 @@ const Sequelize = require('sequelize')
 const models= require('../models')
 //const  admin= models.Administrador
 const lider= models.Lider
-const equipotorneo=models.EquipoTorneo
+const organizador=models.Organizador
 const usuario=require('../models/usuario')
 const torneo=models.Torneo
 const equipo=models.Equipo
@@ -33,20 +33,16 @@ rutas.get('/', (req,res)=>{
     torneo.findAll( {} )
       .then(ltorneos =>{
           LT = ltorneos
-          res.redirect('torneos')
       })
 })
 
 
-rutas.get('/torneos',async(req,res)=>{
-    var ltorneos= await torneo.findAll( {} )
-    var linscrito= await equipotorneo.findAll({
-        where:{
-            IdEquipo: req.user.equipo
-        }
-    })
-        res.render('lider-vistatorneos',{ ltorneos, linscrito})
+rutas.get('/torneos',(req,res)=>{
     
+    torneo.findAll( {} )
+    .then(rpta=>{
+        res.render('lider-vistatorneos',{ ltorneos: rpta})
+    })
       
 })
 
@@ -155,20 +151,18 @@ rutas.post('/editar-equipo',async(req,res)=>{
                 res.redirect('torneos')
             })
             }
-        })  
+        })
+            
+        
+        
 }
-})
-rutas.get('/inscripcion',(req,res)=>{
-    equipotorneo.create({
-        puntaje: 10000,
-        estado: "inactivo",
-        IdEquipo: req.user.equipo,
-        IdTorneo: req.query.id
-    }).then(rpta=>{
-        res.redirect('torneos')
-    })
+
+     
+            
+    
     
 })
+
 rutas.post('/retroceder-lider',(req,res)=>{
     res.redirect('torneos')
 })
