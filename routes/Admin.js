@@ -31,12 +31,23 @@ rutas.use(par.array()) //para multer
 
 /*Pagina de Inicio*/
 
+
+ 
 rutas.get('/',(req,res)=>{
     //MOSTRAR TODOS LOS USUARIOS 
     //5 por pagina
+    
     usuario.find({ })
     .then(rpta=>{        
-        res.redirect('/admin/consultar-usuarios/1')
+        const holaa = req.user.rol
+        if(holaa=="Admin"){
+           res.redirect('/admin/consultar-usuarios/1') 
+        }else{
+              
+              req.flash('error_msg', 'no erees admin');
+            res.redirect('../../home')
+        }
+        
     })
     .catch(error => {
         console.log(error)
@@ -231,4 +242,9 @@ rutas.post('/editar-usuario', (req,res)=>{
             res.redirect('consultar-usuarios')
     })   
 })
+
+
+
+
+
 module.exports =rutas
