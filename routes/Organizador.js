@@ -50,39 +50,54 @@ rutas.get('/torneos',isAuthenticated,(req,res)=>{
 
 rutas.get('/creartorneo',isAuthenticated,(req,res)=>{
   //muestra pagina de creacion de torneo
-  res.render('creartorneo')
+  res.render('creartorneo',{listatorneos: LT,error:'False'})
 })
  
 rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
   //envia los campos del torneo creado
-  const aviso = req.body.descripcion
+  /*const aviso = req.body.descripcion
   console.log("------------------>>>>>>>>>>>>>>"+req.body.aviso)
   console.log(aviso)
   if(req.body.aviso=="on")
   {
     console.log("aviso tabla creada bien")
-  } 
-  torneo.create({
-    nombre: req.body.nombre,
-    descripcion: req.body.descripcion,
-    fecha_ini: req.body.fecha_ini,
-    fecha_fin: req.body.fecha_fin,
-    maxParticipantes: req.body.maxParticipantes,
-    tipo: req.body.tipo,
-    partidasxDia: req.body.partidasxDia,
-    puntajeGanar: req.body.puntajeGanar,
-    puntajePerder: req.body.puntajePerder,
-    puntajeEmpatar: req.body.puntajeEmpatar,
-    estado: 'abierto'
-     
-  }).then(rpta =>{
-    
-    res.redirect('torneos')
-  })
-  .catch( error =>{
-    console.log(error)
-    res.status(500).send(error)
-  })
+  } */
+  if(req.body.nombre.length==0){
+    res.render('creartorneo',{listatorneos: LT,error:'True'})
+  }else{
+    torneo.findAll({
+      where:{
+        nombre:req.body.nombre
+      }
+    }).then(rpta =>{
+      if(rpta.length!=0){
+        res.render('creartorneo',{listatorneos: LT,error:'True'})
+      }else{
+        torneo.create({
+          nombre: req.body.nombre,
+          descripcion: req.body.descripcion,
+          fecha_ini: req.body.fecha_ini,
+          fecha_fin: req.body.fecha_fin,
+          maxParticipantes: req.body.maxParticipantes,
+          tipo: req.body.tipo,
+          partidasxDia: req.body.partidasxDia,
+          puntajeGanar: req.body.puntajeGanar,
+          puntajePerder: req.body.puntajePerder,
+          puntajeEmpatar: req.body.puntajeEmpatar,
+          estado: 'abierto'
+           
+        }).then(rpta =>{
+          
+          res.redirect('torneos')
+        })
+        .catch( error =>{
+          console.log(error)
+          res.status(500).send(error)
+        })
+      }
+    })
+  }
+  
 })
 
 rutas.get('/retroceder',(req,res)=>{
@@ -130,6 +145,7 @@ rutas.post('/editar-torneo',(req,res)=>{
       res.status(500).send(error)
   })
 })
+
 rutas.get('/organizar-torneo',(req,res)=>{
   torneo.findOne({
     where: {id: req.query.id}

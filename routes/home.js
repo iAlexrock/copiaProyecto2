@@ -31,15 +31,9 @@ rutas.use(par.array()) //para multer
 //inicio sesion
 rutas.get('/',(req,res)=>{
   let errors = [];
-    res.render('ingreso',{ errors,layout: '../layouts/Signin' })
+    res.render('home')
 })
 
 
-
-rutas.post('/', passport.authenticate('local', {
-    successRedirect: '/home',    
-    failureRedirect: '/sign-in',
-    failureFlash: true
-  }));
 
 module.exports =rutas
