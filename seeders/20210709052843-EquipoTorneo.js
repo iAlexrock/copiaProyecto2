@@ -11,16 +11,12 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-     await queryInterface.bulkInsert('Torneos', [
+     await queryInterface.bulkInsert('EquipoTorneos', [
       {
-       nombre: 'torneo1',
-       descripcion: 'dificl lolsito',
-       fecha_ini: new Date(2021,7,7),
-       fecha_fin: new Date(2021,7,13),
-       maxParticipantes:7,
-       tipo: 'muertos',
-       partidasxDia: 4,
-       IdOrganizador:4,
+       puntaje: 22,
+       estado: 'activo',
+       IdEquipo: 1,
+       IdTorneo: 2,
        createdAt: new Date(),
        updatedAt : new Date()
      }],{})

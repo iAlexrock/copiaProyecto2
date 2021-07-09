@@ -1,17 +1,27 @@
-<h1>ACA VA NOMBRE DEL TORNEO</h1>
-<p>Info del torneooooooooooooooooooooooooooooooooo</p>
-<h3> Mua 🍟 </h3>
+ACA VA NOMBRE DEL TORNEO:
+<h1><%= torneo.nombre%></h1>
+<p>Info del torneooooooooooooooooooooooooooooooooo</p><%= torneo.descripcion%>
+<h3>🍟🍟🍟🍟🍟</h3>
 <p>Fecha de inicio:</p>
 <p>Fecha de fin:</p>
 <p>Estado:</p>
 
 <div>
-    <form action="retroceder" style="display: inline" method='GET'>
-        <input type="submit"  value="Ver Equipos" formaction="ver-equipos-torneo"/>
-        <input type="submit"  value="Ver Fixture" formaction="ver-fixture-torneo"/>
-        <input type="submit"  value="Ver Tabla" formaction="ver-tabla-torneo"/>   
+    <form action="ver-equipos-torneo" style="display: inline" method='GET'>
+        <input type="hidden" value="<%=torneo.id%>" name="torneo" >
+        <input type="submit"  value="Ver Equipos" />
+    </form>    
+        <% if(torneo.estado=="en curso"){%>
+    <form action="ver-fixture-torneo" style="display: inline" method='GET'>
+        <input type="hidden" value="<%=torneo.id%>" name="torneo">
+        <input type="submit"  value="Ver Fixture"/>
+    </form>
+    <form action="ver-tabla-torneo" style="display: inline" method='GET'>
+        <input type="hidden" value="<%=torneo.id%>" name="torneo">
+        <input type="submit"  value="Ver Tabla"/>  
+    </form>
+        <% }%> 
+    <form action="retroceder" style="display: inline" method='GET'>    
         <input type="submit"  value="Volver">
     </form>
-
 </div>
-
