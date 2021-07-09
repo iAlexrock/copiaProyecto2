@@ -27,10 +27,14 @@ rutas.use(par.array()) //para multer
 
 //logeo de ususarios sign-up 2 
 
-
+var rolo =""
 //inicio sesion
 rutas.get('/',(req,res)=>{
   let errors = [];
+  console.log("------------>" + rolo)
+  
+   rolo=req.user.rol
+   console.log("------------->>"+ rolo)
     res.render('home')
 })
 
