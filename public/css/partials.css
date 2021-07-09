@@ -106,6 +106,8 @@ table{
   width:100%;
 }
 
+
+
 @media (max-height: 500px){
   .social_media{
     display: none !important;
