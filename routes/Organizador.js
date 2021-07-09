@@ -84,7 +84,7 @@ rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
   })
 })
 
-rutas.post('/retroceder',(req,res)=>{
+rutas.get('/retroceder',(req,res)=>{
   res.redirect('torneos')
 })
 
@@ -131,7 +131,16 @@ rutas.post('/editar-torneo',(req,res)=>{
   })
 })
 rutas.get('/organizar-torneo',(req,res)=>{
-  res.render('organizador-organizart')
+  torneo.findOne({
+    where: {id: req.query.id}
+  }).then(rpta=>{
+    res.render('organizador-organizart', {torneo:rpta})
+  })
+  .catch( error =>{
+    console.log(error)
+    res.status(500).send(error)
+})
+  
   //muestra pagina con info del torneo junto a botones: "ver equipos","ver fixture","ver tabla  "
 })
 rutas.get('/ver-equipos-torneo',(req,res)=>{
@@ -150,7 +159,7 @@ rutas.get('/ver-fixture-torneo',(req,res)=>{
 rutas.post('/ver-fixture-torneo',(req,res)=>{
   //Guardar ganadores de cada partida editada
 })
-rutas.post('ver-tabla-torneo',(req,res)=>{
+rutas.get('ver-tabla-torneo',(req,res)=>{
   //Mostrar tabla de posiciones
 })
 
