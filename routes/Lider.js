@@ -9,7 +9,7 @@ const models= require('../models')
 const lider= models.Lider
 const organizador=models.Organizador
 const usuario=require('../models/usuario')
-
+const torneo=models.Torneo
 const {Op}= require("sequelize")
 
 //MULTER
@@ -21,13 +21,21 @@ rutas.use(express.urlencoded({extended:true}))
 rutas.use(express.json())
 rutas.use(par.array()) //para multer
 
+var LT = []
 rutas.get('/', (req,res)=>{
-    res.redirect('lider/torneos')
+    torneo.findAll( {} )
+      .then(ltorneos =>{
+          LT = ltorneos
+      })
 })
 
 
 rutas.get('/torneos',(req,res)=>{
-    res.render('lider-vistatorneos')
+    torneo.findAll( {} )
+    .then(rpta=>{
+        res.render('lider-vistatorneos',{ltorneos: rpta})
+    })
+      
 })
 
 rutas.get('/editar-perfil',(req,res)=>{
