@@ -2,3 +2,46 @@ HOLIIIIIIII
 ESTA ES LA PAGINA PRINCIPAL DE LOS LIDERES
 
 TABLA DE TORNEOS
+<h1>HOLAAA</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>-- ID -</th>
+            <th>- Nombre -</th>
+            <th>- Estado -</th>
+            <th>- Maximo de particpantes -</th>
+            <th>- Inscrito ? --</th>
+        </tr>
+    </thead>
+    <tbody id="datos">
+             <% ltorneos.forEach( function(elem) { %>
+                <tr>
+                    <td><%=elem.id%></td>
+                    <td><%=elem.nombre%></td>
+                    <td><%=elem.estado%></td>
+                    <td><%=elem.maxParticipantes%></td>
+                <td>
+                    <form action="inscribirnos">
+                        <input type="hidden" name="id" value="<%= elem.id %>" />
+                        <input type="submit" value="Inscribirse" />
+                    </form>
+                </td>
+                <td>
+                </td>
+                </tr>
+             <% }) %>
+     </tbody>
+</table>
+
+
+
+<form action="editar-perfil">
+    <input type="submit" value="Editar Perfil" />
+</form>
+
+
+<form action="editar-equipo" >
+    <input type="submit" value="Editar Equipo" />
+</form>

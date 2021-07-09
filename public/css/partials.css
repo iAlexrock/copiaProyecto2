@@ -107,6 +107,9 @@ table{
 }
 
 
+.column{
+  display: inline-block;
+}
 
 @media (max-height: 500px){
   .social_media{

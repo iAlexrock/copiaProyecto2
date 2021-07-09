@@ -68,7 +68,7 @@ rutas.post('/',async (req,res)=>{
         const usuariocorreo = await usuario.findOne({correo:correo}) //buscar coincidencias de correo en la BD
         const equipousado= await equipo.findOne({where:{nombre:nombreequipo}})//buscar coincidencias nombre equipo
         if(usuariocorreo){ //si se encuentra usuario
-            errors.push({text: 'Correo ya registrado.'});
+          errors.push({text: 'Correo ya registrado.'});
         }
         if(equipousado){
           errors.push({text: 'Nombre de equipo ya registrado.'})
@@ -76,17 +76,16 @@ rutas.post('/',async (req,res)=>{
 
         if (errors.length>0){
           res.render('sign-up',{errors,layout: '../layouts/Signin' })
-        }
-        else{
-
-            const nuevousuario=  new usuario({nombre,correo,password,rol:'Participante Líder', equipo:nombreequipo});
-            nuevousuario.password =  await nuevousuario.encryptPassword(password);
-            await nuevousuario.save();
-            await equipo.create({
-              nombre:nombreequipo,
-              integrantes: null})
-            req.flash('success_msg', 'usuario y equipo creados correctamente');
-            res.redirect('/')
+        }else{
+          var idequipo= await equipo.create({
+                      nombre:nombreequipo,
+                      integrantes: null})
+          const nuevousuario=  new usuario({nombre,correo,password,rol:'Participante Líder', equipo:idequipo.id});
+          nuevousuario.password =  await nuevousuario.encryptPassword(password);
+          await nuevousuario.save();
+          
+          req.flash('success_msg', 'usuario y equipo creados correctamente');
+          res.redirect('/')
         
         }
       }

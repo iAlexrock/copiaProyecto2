@@ -89,7 +89,6 @@ rutas.get('/retroceder',(req,res)=>{
   res.redirect('torneos')
 })
 
-
 rutas.get('/editar-torneo',(req,res)=>{
   return torneo.findAll({
         where:{
@@ -141,9 +140,10 @@ rutas.get('/organizar-torneo',(req,res)=>{
     console.log(error)
     res.status(500).send(error)
 })
-  
-  //muestra pagina con info del torneo junto a botones: "ver equipos","ver fixture","ver tabla  "
 })
+
+
+
 rutas.get('/ver-equipos-torneo',(req,res)=>{
   //Mostrar listado de equipos
   //se puede seleccionar el estado de cada equipo en el torneo
@@ -161,6 +161,7 @@ rutas.post('/ver-fixture-torneo',(req,res)=>{
   //Guardar ganadores de cada partida editada
 })
 rutas.get('/ver-tabla-torneo',(req,res)=>{
+  //se necesita equipotorneo(encontrar equipos), equipo (nombre), torneo (puntajes,id ) ronda (partidas),partidas (ganador),
   return equipoTorneo.findAll({
       where:{IdTorneo:req.query.torneo}
       }).then(rpta=>{
