@@ -28,13 +28,12 @@ rutas.use(express.json())
 rutas.use(par.array()) //para multer
 
 /*Pagina de Inicio*/
-var LC= []
-rutas.get('/', (req,res)=>{
+
+rutas.get('/',(req,res)=>{
     //MOSTRAR TODOS LOS USUARIOS 
     //5 por pagina
     usuario.find({ })
-    .then(listaTipos=>{
-        LC=listaTipos
+    .then(rpta=>{        
         res.redirect('/admin/consultar-usuarios')
     })
     .catch(error => {
@@ -47,7 +46,7 @@ rutas.get('/', (req,res)=>{
 rutas.get('/consultar-usuarios',(req,res) =>{
     usuario.find({})
     .then(rpta => {
-        res.render('listado-usuarios', {lcasinos: LC, ljugadores: rpta})
+        res.render('listado-usuarios', {lusuarios: rpta})
     })
     .catch(error => {
         console.log(error)
@@ -57,7 +56,7 @@ rutas.get('/consultar-usuarios',(req,res) =>{
 })
 //Crear usuario
 rutas.get('/crear-usuario',(req,res)=>{
-    res.render('agregar-usuarios', {lcasinos:LC, error:"false"})
+    res.render('agregar-usuarios')
 })
 
 rutas.post('/crear-usuario',async (req,res)=>{
@@ -65,8 +64,7 @@ rutas.post('/crear-usuario',async (req,res)=>{
     const password= "12345" 
 
     if(req.body.nombre.length == 0){
-
-        res.render('agregar-usuarios', {lcasinos: LC, error: "true"})
+        res.render('agregar-usuarios')
     }   
 
     if(req.body.rol=="Admin"){
@@ -129,7 +127,7 @@ rutas.post('/filtrar-usuarios', (req,res)=>{
                 res.redirect('/admin/consultar-usuarios')
             }
             else{
-                res.render('listado-usuarios', {lcasinos: LC, ljugadores: rpta})
+                res.render('listado-usuarios', {lusuarios: rpta})
             }            
         })
         .catch(error => {
@@ -150,7 +148,7 @@ rutas.post('/ordenar-usuarios', (req,res) =>{
             })
             .then(rpta => {
                 
-                res.render('listado-usuarios', { lcasinos: LC, ljugadores: rpta })
+                res.render('listado-usuarios', {lusuarios: rpta })
                 
             })            
     }   
@@ -162,7 +160,7 @@ rutas.post('/ordenar-usuarios', (req,res) =>{
             })
             .then(rpta => {
                 
-                res.render('listado-usuarios', { lcasinos: LC, ljugadores: rpta })
+                res.render('listado-usuarios', {lusuarios: rpta })
                 
             })
     }    
@@ -174,7 +172,7 @@ rutas.post('/ordenar-usuarios', (req,res) =>{
             })
             .then(rpta => {
                 
-                res.render('listado-usuarios', { lcasinos: LC, ljugadores: rpta })
+                res.render('listado-usuarios', {lusuarios: rpta })
                 
             })
     }
@@ -197,7 +195,7 @@ rutas.get('/editar-usuario', (req,res)=>{
         })
         .then(rpta=>{
             console.log(rpta)
-            res.render('editar-usuarios',{lcasinos: LC, ljugadores: rpta, })
+            res.render('editar-usuarios',{lusuarios: rpta, })
         })
         
 })
@@ -212,7 +210,7 @@ rutas.post('/editar-usuario', (req,res)=>{
            id:req.body.idedit
         })
         .then(rpta=>{
-            res.render('editar-usuarios', {lcasinos: LC,ljugadores:rpta,confirmalo:"false" ,error: "true"})
+            res.render('editar-usuarios', {lusuarios:rpta})
         })        
     }
 /*
