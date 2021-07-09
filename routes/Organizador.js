@@ -108,7 +108,7 @@ rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
 rutas.get('/retroceder',(req,res)=>{
   res.redirect('torneos')
 })
-
+var LTor = []
 rutas.get('/editar-torneo',(req,res)=>{
   return torneo.findAll({
         where:{
@@ -117,7 +117,8 @@ rutas.get('/editar-torneo',(req,res)=>{
     })
     .then(rpta =>{
         console.log(rpta.id)
-        res.render('editar-torneo',{ltorneos:rpta})
+        LTor = rpta
+        res.render('editar-torneo',{ltorneos:LTor})
     })
     .catch( error =>{
         console.log(error)
@@ -126,29 +127,48 @@ rutas.get('/editar-torneo',(req,res)=>{
 })
 rutas.post('/editar-torneo',(req,res)=>{
   //envia los campos editados del torneo
-  return torneo.update(
-    {
-      nombre: req.body.nombre,
-      descripcion: req.body.descripcion,
-      fecha_ini: req.body.fecha_ini,
-      fecha_fin: req.body.fecha_fin,
-      partidasxDia: req.body.gananciaAcum,
-      puntajeGanar: req.body.puntajeGanar,
-      puntajePerder: req.body.puntajePerder,
-      puntajeEmpatar: req.body.puntajeEmpatar,
-      estado: req.body.estadotorneo
-    },{
+  torneo.findAll({
     where:{
-        id:{[Op.eq]:req.body.id}
+      nombre:req.body.nombre,
+      id:{[Op.ne]:req.body.id}
     }
+  }).then(rpta =>{
+    if(rpta.length!=0){
+      return torneo.findAll({
+          where:{
+              id:req.body.id
+          }
+      }).then(rpta =>{
+          console.log(rpta.id),
+          res.render('editar-torneo',{ltorneos:LTor})
+      })
+  }else{
+    return torneo.update(
+      {
+        nombre: req.body.nombre,
+        descripcion: req.body.descripcion,
+        fecha_ini: req.body.fecha_ini,
+        fecha_fin: req.body.fecha_fin,
+        partidasxDia: req.body.gananciaAcum,
+        puntajeGanar: req.body.puntajeGanar,
+        puntajePerder: req.body.puntajePerder,
+        puntajeEmpatar: req.body.puntajeEmpatar,
+        estado: req.body.estadotorneo
+      },{
+      where:{
+          id:{[Op.eq]:req.body.id}
+      }
+      })
+      .then(rpta =>{
+        res.redirect('/organizador/torneos')
+      })
+      .catch( error =>{
+        console.log(error)
+        res.status(500).send(error)
     })
-    .then(rpta =>{
-      res.redirect('/organizador/torneos')
-    })
-    .catch( error =>{
-      console.log(error)
-      res.status(500).send(error)
+  }
   })
+  
 })
 
 rutas.get('/organizar-torneo',(req,res)=>{

@@ -99,8 +99,9 @@ rutas.post('/editar-perfil',async (req,res)=>{
     }
 })
 var LE = []
+let errors = []
 rutas.get('/editar-equipo',(req,res)=>{
-    let errors = [];
+    
     
     equipo.findOne({where: {id:req.user.equipo}}
         ).then(rpta =>{
@@ -118,13 +119,14 @@ rutas.post('/editar-equipo',async(req,res)=>{
         }
     }).then(rpta =>{
         if(rpta.length!=0){
+            errors.push({text: 'Equipo ya registrado.'});
             return equipo.findAll({
                 where:{
                     id:req.body.equipo
                 }
             }).then(rpta =>{
                 console.log(rpta.id),
-                res.render('editar-equipo',{lequipo:LE})
+                res.render('editar-equipo',{errors,lequipo:LE})
             })
         }else{
             return equipo.update({

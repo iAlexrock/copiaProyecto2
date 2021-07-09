@@ -1,7 +1,13 @@
 <h1>HOLAAA ACA VAS A EDITAR PERFIL</h1>
 <h1>hola   <%= user.nombre%></h1>
 
-
+<% errors.forEach( function(c)  {  %> 
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%= c.text%>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+<%}) %>   
     <form  action="editar-equipo" method="POST">
         id: <input type="text" name="idU" size="27" value="<%=user.id%>" readonly>
         Equipo ID: <input type="text" name="equipo" size="27" value="<%=user.equipo%>">
