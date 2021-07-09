@@ -1,6 +1,11 @@
 const express = require("express")
 const bodyParser= require("body-parser")
 
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const bcrypt = require('bcryptjs');
+
 const rutas = express.Router()
 
 const Sequelize = require('sequelize')
