@@ -1,15 +1,17 @@
 
+    <div class="column">ID</div>
+    <div class="column">Nombre Equipo   </div>
+    <%alphabet = 'ABCDEFGHIJKLM'.split('')%>
+    <%for (i=0;i<lequipos.length;i++){ %>
+        <div class="column"> <%=alphabet[i]%></div>
+    <%}%>
+    
 
-
-<div class= "row">
-
-    <% if (lequipos.length >0){ %>
-    <%lequipos.forEach(function (elem){ %>
-    <div class="column"> 1</div>
-    <%}) 
-    }
-    else {%>
-    AUN NO SE HAN INSCRITO Equipos
-    <% }%>
-
-</div>
+    <%for (i=0;i<lequipos.length;i++){ %>
+        <div class="row">
+            <div class="column"> 
+                <p><%=alphabet[i]%></p>
+                <p><%=alphabet[i]%></p>
+            </div>
+    </div>
+    <%}%>

@@ -81,14 +81,17 @@ const logeo = require('./routes/log');
 const logout = require('./routes/Logout');
 const admin = require('./routes/Admin'); //ruta para entrar como admin
 const lider = require('./routes/Lider'); //rutas para entrar como lider
-
+const home = require('./routes/home');
 
 ///app.use('/sign-up' , logeados); //vanessa
 app.use('/sign-in' , ingreso); //eldrick
 app.use('/log' , logeo); //eldrick
 app.use('/logout' , logout); //eldrick
+
 app.use('/admin',admin); //alejo <3 
-app.use('/lider',lider);
+app.use('/lider',lider); //rodrigo
+
+app.use('/home' , home); //eldrick
 
 app.use('/organizador' , organizador); 
 app.use('/espectador' , espectador); 

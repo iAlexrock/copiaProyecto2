@@ -11,24 +11,19 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-     await queryInterface.bulkInsert('EquipoTorneos', [
+     await queryInterface.bulkInsert('Equipos', [
       {
-       puntaje: 30,
-       estado: 'activo',
-       IdEquipo: 4,
-       IdTorneo: 2,
+       nombre: 'g3',
+       integrantes: 7,
        createdAt: new Date(),
        updatedAt : new Date()
      },
      {
-      puntaje: 27,
-      estado: 'activo',
-      IdEquipo: 5,
-      IdTorneo: 2,
+      nombre: 'g4',
+      integrantes: 7,
       createdAt: new Date(),
       updatedAt : new Date()
-    }
-    ],{})
+    }],{})
   },
 
   down: async (queryInterface, Sequelize) => {

@@ -2,15 +2,18 @@ const express = require("express")
 const bodyParser= require("body-parser")
 
 const rutas = express.Router()
-
+var mongoose = require('mongoose');
 const Sequelize = require('sequelize')
 const models= require('../models')
 //const  admin= models.Administrador
 const lider= models.Lider
 const organizador=models.Organizador
-
+const usuario=require('../models/usuario')
+const torneo=models.Torneo
+const equipo=models.Equipo
 const {Op}= require("sequelize")
 
+const user = require('../index')
 //MULTER
 const multer = require('multer')
 const par = multer()
@@ -20,34 +23,135 @@ rutas.use(express.urlencoded({extended:true}))
 rutas.use(express.json())
 rutas.use(par.array()) //para multer
 
+var LT = []
 rutas.get('/', (req,res)=>{
-    res.redirect('lider/torneos')
+    torneo.findAll( {} )
+      .then(ltorneos =>{
+          LT = ltorneos
+      })
 })
+
+
 rutas.get('/torneos',(req,res)=>{
-    res.render('lider-vistatorneos')
-    //mostrar listado de  torneos, si no se está inscrito aparece boton "incribirse"
+    
+    torneo.findAll( {} )
+    .then(rpta=>{
+        res.render('lider-vistatorneos',{ ltorneos: rpta})
+    })
+      
 })
-rutas.post('/torneos',(req,res)=>{
-    //filtrar torneos
+
+rutas.get('/editar-perfil',(req,res)=>{
+    let errors = [];
+    usuario.find(
+        {
+            id: req.query.id            
+        })
+        .then(rpta=>{
+            console.log(rpta)
+            res.render('editar-perfil',{errors})
+        })
 })
-rutas.get('/ver-tabla-torneo',(req,res)=>{
-    //mostrar posicion de equipos relativa a torneo
+
+rutas.post('/editar-perfil',async (req,res)=>{
+    let errors = [];
+    const usuariocorreo = await usuario.findOne({correo: req.body.correo}) 
+    if (usuariocorreo){
+        errors.push({text: 'Correo ya registrado'})
+    }
+
+    if (errors.length>0){
+        res.render('editar-perfil',{errors})
+      }else{
+        usuario.findOneAndUpdate( 
+            {_id: req.body.idU},
+            {   
+                nombre: req.body.nombre,
+                correo: req.body.correo,
+                password: req.body.contra
+            },  
+            {runValidators:true}       
+        )   
+        .then(rpta=>{
+                console.log(rpta)
+                res.redirect('torneos')
+        }) 
+      }
 })
-rutas.get('/ver-fixture',(req,res)=>{
-    //ver fixture
+
+rutas.get('/editar-equipo',(req,res)=>{
+    let errors = [];
+    var LE = []
+    equipo.findOne({where: {id:req.user.equipo}}
+        ).then(rpta =>{
+            res.render('editar-equipo',{errors, lequipo:rpta})
+        })
 })
-rutas.get('/perfil',(req,res)=>{
-    //ver perfil y su info, poder hacer cambios
+
+rutas.post('/editar-equipo',async(req,res)=>{
+    let errors = [];
+
+    if(req.body.nombreEquipo.length==0)
+    {
+        return equipo.findAll({
+            where:{
+                id:req.body.equipo
+            }
+        }).then(rpta =>{
+            console.log(rpta.id),
+            res.render('editar-equipo')
+        })
+    }
+    else{
+        equipo.findAll({
+            where:{
+                nombre:req.body.nombreEquipo,
+                id:{[Op.ne]:req.body.equipo}
+            }
+        }).then(rpta=>{
+            if (rpta.length!=0){
+                return equipo.findAll({
+                    where:{
+                        id:req.body.equipo
+                    }
+                }).then(rpta =>{
+                    console.log(rpta.id),
+                    res.render('editar-equipo',{lequipo:LE})
+                })
+            }
+            else{
+                return equipo.update({
+                    nombre: req.body.nombreEquipo,
+                    integrantes: req.body.integrantes
+                },{
+                where:{
+                    id:{[Op.eq]:req.body.equipo
+                }}
+            }).then(rpta=>{
+                res.redirect('torneos')
+            })
+            }
+        })
+            
+        
+        
+}
+
+     
+            
+    
+    
 })
-rutas.post('/perfil',(req,res)=>{
-    //guardar cambios de perfil
-    //mostrar error si correo ya ha sido elegido
+
+rutas.post('/retroceder-lider',(req,res)=>{
+    res.redirect('torneos')
 })
-rutas.get('/mi-equipo',(req,res)=>{
-    //mostrar daos del equipo, hacer cambios
-    //boton guardar
+rutas.get('/ver-torneo',(req,res)=>{
+    torneo.findOne({
+        where:{id:req.query.id}
+    }).then(rpta=>{
+        res.render('lider-ver-torneo',{torneo: rpta})
+    })
 })
-rutas.post('mi-equipo',(req,res)=>{
-    //mostrar error si al guardar el nombre del equipo ya ha sido usado.
-})
+
 module.exports =rutas
