@@ -124,74 +124,97 @@ rutas.post('/crear-usuario',async (req,res)=>{
 
 rutas.post('/filtrar-usuarios', (req,res)=>{
     //FILTRAR POR NOMBRE/CORREO Y ROL
-    usuario.find(
+    let perPage= 1000;
+    let page= 1; 
+    usuario
+        .find(
         {
            $or:[{nombre: new RegExp('^'+ req.body.filtrado + '$',"i")}, 
                 {correo:   new RegExp('^'+ req.body.filtrado + '$',"i")},
                 {correo: {$regex: req.body.filtrado, $options: "i"} },
                 {nombre: {$regex: req.body.filtrado, $options: "i"} }]                        
         })
-
-        .then(rpta =>{
-            if(rpta == ''){
-                res.redirect('/admin/consultar-usuarios')
-            }
-            else{
-                res.render('listado-usuarios', {lusuarios: rpta})
-            }            
-        })
-        .catch(error => {
-            console.log(error)
-            res.status(500).send(error)
-        })    
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec((err, usuarios) => {
+            usuario.countDocuments((err, count) => {
+                if (err) return next(err);
+                if(req.body.filtrado == ''){
+                    res.redirect('/admin/consultar-usuarios/1')
+                }
+                else{
+                res.render('listado-usuarios', {
+                    usuarios, //lista que retorna .find .skip
+                    current: page, //permitira crear la cantidad de nuevos botones
+                    pages: Math.ceil(count / perPage), //numero de paginas que se van a generar redondeado al mayor                               
+                })}
+            })
+        })   
 })
 
 
 //ORDENAR
 rutas.post('/ordenar-usuarios', (req,res) =>{
-    
+    let perPage= 1000;
+    let page= 1;  
+
     if(req.body.tipoOrdenado == "Admin"){
-            usuario.find(
-            {
-               rol: 'Admin'
-                
-            })
-            .then(rpta => {
-                
-                res.render('listado-usuarios', {lusuarios: rpta })
-                
-            })            
-    }   
-    else if(req.body.tipoOrdenado == "Organizador"){
-        usuario.find(
-            {
-               rol: 'Organizador'
-                
-            })
-            .then(rpta => {
-                
-                res.render('listado-usuarios', {lusuarios: rpta })
-                
-            })
+        usuario
+        .find({ rol: 'Admin'})
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec((err, usuarios) => {
+            usuario.countDocuments((err, count) => {
+                if (err) return next(err);
+                res.render('listado-usuarios', {
+                    usuarios, 
+                    current: page, 
+                    pages: Math.ceil(count / perPage), 
+                    })
+                })
+            }
+        )
     }    
-    else if(req.body.tipoOrdenado == "Participante Líder"){
-        usuario.find(
-            {
-               rol: 'Participante Líder'
-                
-            })
-            .then(rpta => {
-                
-                res.render('listado-usuarios', {lusuarios: rpta })
-                
-            })
+
+    else if(req.body.tipoOrdenado == "Organizador"){
+        usuario
+        .find({ rol: 'Organizador'})
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec((err, usuarios) => {
+            usuario.countDocuments((err, count) => {
+                if (err) return next(err);
+                res.render('listado-usuarios', {
+                    usuarios, 
+                    current: page, 
+                    pages: Math.ceil(count / perPage), 
+                    })
+                })
+            }
+        )
     }
+
+    else if(req.body.tipoOrdenado == "Participante Líder"){
+        usuario
+        .find({ rol: 'Participante Líder'})
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec((err, usuarios) => {
+            usuario.countDocuments((err, count) => {
+                if (err) return next(err);
+                res.render('listado-usuarios', {
+                    usuarios, 
+                    current: page, 
+                    pages: Math.ceil(count / perPage), 
+                    })
+                })
+            }
+        )
+    }
+
     else{
-        usuario.find({})
-        .then(rpta => {            
-            res.redirect('/admin/consultar-usuarios')                 
-        })        
-    }       
+        res.redirect('/admin/consultar-usuarios/1')  
+    }   
 })
 
 
@@ -228,7 +251,7 @@ rutas.post('/editar-usuario', (req,res)=>{
 
     .then(rpta=>{
             console.log(rpta)
-            res.redirect('consultar-usuarios')
+            res.redirect('/admin/consultar-usuarios/1')
     })   
 })
 module.exports =rutas
