@@ -1,10 +1,10 @@
 <h1>EDITAR USUARIO</h1>
 
 <% ljugadores.forEach(function(x){%>
-<form  action="editar-usuarios" method="POST">
-    id: <input type="text" name="idedit" value="<%=x.id%>" readonly>
+<form  action="editar-usuario" method="POST">
+    id: <input type="text" name="idedit" size="27" value="<%=x.id%>" readonly>
     <br>
-    Nombre: <input type="text" name="nombre" />
+    Nombres: <input type="text" name="nombre" />
     <br>
     Correo Electrónico : <input type="text" name="correo" />   
     <br>    

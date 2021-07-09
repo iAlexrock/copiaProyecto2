@@ -103,12 +103,10 @@ rutas.post('/crear-usuario',async (req,res)=>{
                 rol: rol,  
                 password: password,
                 IdEquipo:rpta.id
-            })
-            
+            })            
                 nuevousuario.password =  await nuevousuario.encryptPassword(password);   
                 await nuevousuario.save();
                 res.redirect('/admin/consultar-usuarios')            
-            
         })                      
     } 
          
@@ -195,16 +193,13 @@ rutas.get('/editar-usuario', (req,res)=>{
     
     usuario.find(
         {
-            id: req.query.id            
+            _id: req.query.id            
         })
         .then(rpta=>{
             console.log(rpta)
-            res.render('editar-usuarios',{lcasinos: LC, ljugadores: rpta, confirmalo: "false", error:"false"})
+            res.render('editar-usuarios',{lcasinos: LC, ljugadores: rpta, })
         })
-        .catch(error => {
-            console.log(error)
-            res.status(500).send(error)
-        })
+        
 })
 
 rutas.post('/editar-usuario', (req,res)=>{
@@ -220,8 +215,8 @@ rutas.post('/editar-usuario', (req,res)=>{
             res.render('editar-usuarios', {lcasinos: LC,ljugadores:rpta,confirmalo:"false" ,error: "true"})
         })        
     }
-
-    /*return usuario.find({
+/*
+    return usuario.find({
         nombre: req.body.nombre,
         rol: req.body.rol,
         correo: req.body.correo      
@@ -231,15 +226,21 @@ rutas.post('/editar-usuario', (req,res)=>{
         where: {id:{[Op.eq]: req.body.idedit}}
     }
     )
-    .then(rpta=>{
-            res.redirect('consultar-usuarios')
-    })
-        .catch(error => {
-            console.log(error)
-            res.status(500).send(error)
-        })
-
     */
+    usuario.findOneAndUpdate( 
+        {_id: req.body.idedit},
+
+        {   nombre: req.body.nombre,
+            rol: req.body.rol,
+            correo: req.body.correo 
+        },  
+        {runValidators:true}       
+    )   
+
+    .then(rpta=>{
+            console.log(rpta)
+            res.redirect('consultar-usuarios')
+    })   
 })
 
 module.exports =rutas

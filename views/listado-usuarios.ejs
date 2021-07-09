@@ -44,15 +44,7 @@ Ingresar Nombre/Correo
                         </td>
                         <td>
                             <%= elem.correo %>
-                        </td>
-                        
-                        <% lcasinos.forEach(function(c) { if (c.id==elem.casino) { %>
-                            <td>
-                                <%= c.nombre %>
-                            </td>
-                            <% } %>
-                                <% }) %>
-        
+                        </td>                                
                                     <td>
                                         <form action="editar-usuario" method="GET">
                                             <input type="hidden" name="id" value="<%= elem.id %>" />
