@@ -1,16 +1,19 @@
 <h1>HOLAAA ACA VAS A EDITAR PERFIL</h1>
 <h1>hola   <%= user.nombre%></h1>
 
-
-
-
-
+<% errors.forEach( function(c)  {  %> 
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%= c.text%>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+<%}) %>   
     <form  action="editar-equipo" method="POST">
         id: <input type="text" name="idU" size="27" value="<%=user.id%>" readonly>
         Equipo ID: <input type="text" name="equipo" size="27" value="<%=user.equipo%>">
         Equipo NombrE: <input type="text" name="nombreEquipo" size="27" value="<%=lequipo.nombre%>">
         <br>
-        Integrantes: <INPUT id=text1 style="WIDTH: 228px; HEIGHT: 98px" size=32 name=integrantes> 
+        Integrantes: <INPUT id=text1 style="WIDTH: 228px; HEIGHT: 98px" value="<%=lequipo.integrantes%>" size=32 name=integrantes> 
        <input type="submit"  value="Editar Equipo" />
 
        <input type="text" name="equipoAntes" value="<%=user.equipo%>">

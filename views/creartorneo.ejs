@@ -35,21 +35,29 @@ puntaje:
 <input type="text" name="puntajeEmpatar" value="" placeholder="partida perdida">
 <br>
 
-<input type="checkbox" name="aviso" > ver confirmacion de creacion del torneo por consola
+
 <br>
 
 
 
 <input type="submit" value="Enviar" />
 
-<input type="submit"  onclick="myFunction()" value="Enviar y mostrar confirmacion" />
+<input type="submit"  onclick=conf() value="Enviar y mostrar confirmacion" />
 
+<button type="submit"onclick="return conf()" > Solicitar confirmacion y crear</button>
     
 </form>
 
-<script>
-    function myFunction() {
-      alert("torneo creado correctamente");
+<script >
+    function conf() {
+      var con = confirm("ESTAS SEGURPO DE CREAR UN TORNEO");
+      if(con == true)
+      {
+        return true;
+      }
+      else{
+        return false;
+      }
     }
 </script>
 

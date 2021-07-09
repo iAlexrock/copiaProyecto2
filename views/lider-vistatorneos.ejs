@@ -25,18 +25,16 @@ TABLA DE TORNEOS
                     <td><%=elem.maxParticipantes%></td>
                     <td><form action="ver-torneo" method ="get">
                         <input type="hidden" name="id" value="<%= elem.id %>" />
-                        <input type="submit" value="Ver"></td>
-                    </form>
+                        <input type="submit" value="Ver">
+                    </form></td>
                 <td>
-                    <form action="inscribirnos">
-                        <input type="hidden" name="id" value="<%= elem.id %>" />
-                        <input type="submit" value="Inscribirse" />
-                    </form>
-                </td>
-                <td>
+                            <form action="inscripcion" method ="GET">
+                            <input type="hidden" name="id" value="<%= elem.id %>" />
+                            <input type="submit" value="Inscribirnos" />
+                            </form>
                 </td>
                 </tr>
-             <% }) %>
+                <%}) %>
      </tbody>
 </table>
 
