@@ -10,8 +10,10 @@ const lider= models.Lider
 const organizador=models.Organizador
 const usuario=require('../models/usuario')
 const torneo=models.Torneo
+const equipo=models.Equipo
 const {Op}= require("sequelize")
 
+const user = require('../index')
 //MULTER
 const multer = require('multer')
 const par = multer()
@@ -63,7 +65,6 @@ rutas.post('/editar-perfil',async (req,res)=>{
       }else{
         usuario.findOneAndUpdate( 
             {_id: req.body.idU},
-    
             {   
                 nombre: req.body.nombre,
                 correo: req.body.correo,
@@ -80,41 +81,70 @@ rutas.post('/editar-perfil',async (req,res)=>{
 
 rutas.get('/editar-equipo',(req,res)=>{
     let errors = [];
-    res.render('editar-equipo',{errors})
-
+    var LE = []
+    equipo.findOne({where: {id:req.user.equipo}}
+        ).then(rpta =>{
+            res.render('editar-equipo',{errors, lequipo:rpta,LE:lequipo})
+        })
 })
 
 rutas.post('/editar-equipo',async(req,res)=>{
     let errors = [];
-    const usuarioequipo = await usuario.findOne({equipo: req.body.equipo}) 
-    if (usuarioequipo){
-        errors.push({text: 'Equipo ya registrado'})
-    }
 
-    if (errors.length>0){
-        res.render('editar-equipo',{errors})
-      }else{ 
-        await usuario.findOneAndUpdate({
-            _id: req.body.idU},
-            {equipo: req.body.equipo},
-            {runValidators:true})
-
-        await equipo.update({
-            nombre: req.body.equipo,
-            integrantes: req.body.integrantes
-        },{
+    if(req.body.nombreEquipo.length==0)
+    {
+        return equipo.findAll({
             where:{
-                id:{[Op.eq]:req.body.equipo}
+                id:req.body.equipo
+            }
+        }).then(rpta =>{
+            console.log(rpta.id),
+            res.render('editar-equipo')
+        })
+    }
+    else{
+        equipo.findAll({
+            where:{
+                nombre:req.body.nombreEquipo,
+                id:{[Op.ne]:req.body.equipo}
+            }
+        }).then(rpta=>{
+            if (rpta.length!=0){
+                return equipo.findAll({
+                    where:{
+                        id:req.body.equipo
+                    }
+                }).then(rpta =>{
+                    console.log(rpta.id),
+                    res.render('editar-equipo',{lequipo:LE})
+                })
+            }
+            else{
+                return equipo.update({
+                    nombre: req.body.nombreEquipo,
+                    integrantes: req.body.integrantes
+                },{
+                where:{
+                    id:{[Op.eq]:req.body.equipo
+                }}
+            }).then(rpta=>{
+                res.redirect('torneos')
+            })
             }
         })
-        res.redirect('torneos')
-        }
-    //mostrar listado de  torneos, si no se está inscrito aparece boton "incribirse"
+            
+        
+        
+}
+
+     
+            
+    
+    
 })
 
 rutas.post('/retroceder-lider',(req,res)=>{
     res.redirect('torneos')
-    //mostrar listado de  torneos, si no se está inscrito aparece boton "incribirse"
 })
 
 module.exports =rutas
