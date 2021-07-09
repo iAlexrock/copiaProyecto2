@@ -161,6 +161,7 @@ rutas.post('/ver-fixture-torneo',(req,res)=>{
   //Guardar ganadores de cada partida editada
 })
 rutas.get('/ver-tabla-torneo',(req,res)=>{
+  //se necesita equipotorneo(encontrar equipos), equipo (nombre), torneo (puntajes,id ) ronda (partidas),partidas (ganador),
   return equipoTorneo.findAll({
       where:{IdTorneo:req.query.torneo}
       }).then(rpta=>{
