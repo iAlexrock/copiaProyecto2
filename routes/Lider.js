@@ -146,5 +146,12 @@ rutas.post('/editar-equipo',async(req,res)=>{
 rutas.post('/retroceder-lider',(req,res)=>{
     res.redirect('torneos')
 })
+rutas.get('/ver-torneo',(req,res)=>{
+    torneo.findOne({
+        where:{id:req.query.id}
+    }).then(rpta=>{
+        res.render('lider-ver-torneo',{torneo: rpta})
+    })
+})
 
 module.exports =rutas
