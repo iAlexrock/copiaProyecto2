@@ -31,58 +31,79 @@ rutas.get('/', (req,res)=>{
 
 
 rutas.get('/torneos',(req,res)=>{
+    
     torneo.findAll( {} )
     .then(rpta=>{
-        res.render('lider-vistatorneos',{ltorneos: rpta})
+        res.render('lider-vistatorneos',{ ltorneos: rpta})
     })
       
 })
 
 rutas.get('/editar-perfil',(req,res)=>{
+    let errors = [];
     usuario.find(
         {
             id: req.query.id            
         })
         .then(rpta=>{
             console.log(rpta)
-            res.render('editar-perfil')
+            res.render('editar-perfil',{errors})
         })
 })
 
-rutas.post('/editar-perfil',(req,res)=>{
-    usuario.findOneAndUpdate( 
-        {_id: req.body.idU},
+rutas.post('/editar-perfil',async (req,res)=>{
+    let errors = [];
+    const usuariocorreo = await usuario.findOne({correo: req.body.correo}) 
+    if (usuariocorreo){
+        errors.push({text: 'Correo ya registrado'})
+    }
 
-        {   
-            nombre: req.body.nombre,
-            correo: req.body.correo,
-            password: req.body.contra
-        },  
-        {runValidators:true}       
-    )   
-    .then(rpta=>{
-            console.log(rpta)
-            res.redirect('torneos')
-    }) 
-
+    if (errors.length>0){
+        res.render('editar-perfil',{errors})
+      }else{
+        usuario.findOneAndUpdate( 
+            {_id: req.body.idU},
+    
+            {   
+                nombre: req.body.nombre,
+                correo: req.body.correo,
+                password: req.body.contra
+            },  
+            {runValidators:true}       
+        )   
+        .then(rpta=>{
+                console.log(rpta)
+                res.redirect('torneos')
+        }) 
+      }
 })
 
 rutas.get('/editar-equipo',(req,res)=>{
-
-    res.render('editar-equipo')
+    let errors = [];
+    res.render('editar-equipo',{errors})
 
 })
 
-rutas.post('/editar-equipo',(req,res)=>{
-    usuario.findOneAndUpdate(
-        {_id: req.body.idU},
-        {
-            equipo: req.body.equipo
-        },
-        {runValidators:true})
-        .then(rpta=>{
-            res.redirect('torneos')
-        })
+rutas.post('/editar-equipo',async(req,res)=>{
+    let errors = [];
+    const usuarioequipo = await usuario.findOne({equipo: req.body.equipo}) 
+    if (usuarioequipo){
+        errors.push({text: 'Equipo ya registrado'})
+    }
+
+    if (errors.length>0){
+        res.render('editar-equipo',{errors})
+      }else{
+        usuario.findOneAndUpdate(
+            {_id: req.body.idU},
+            {
+                equipo: req.body.equipo
+            },
+            {runValidators:true})
+            .then(rpta=>{
+                res.redirect('torneos')
+            })
+        }
     //mostrar listado de  torneos, si no se está inscrito aparece boton "incribirse"
 })
 

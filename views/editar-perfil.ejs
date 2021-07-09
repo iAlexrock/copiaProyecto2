@@ -1,6 +1,16 @@
 <h1>HOLAAA ACA VAS A EDITAR PERFIL</h1>
 <h1>hola   <%= user.nombre%></h1>
 
+
+<% errors.forEach( function(c)  {  %>
+    
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%= c.text%>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+<%}) %>   
+
     <form  action="editar-perfil" method="POST">
         id: <input type="text" name="idU" size="27" value="<%=user.id %>" readonly>
         <br>
@@ -8,7 +18,7 @@
         <br>
         Correo Electrónico : <input type="text" value="<%=user.correo%>" name="correo" />   
         <br>    
-        Contrasena : <input type="text" value="<%=user.contrasena%>" name="contra" />   
+        Contrasena : <input type="text" value="<%=user.password%>" name="contra" />   
         <br>  
         <br><br>
        

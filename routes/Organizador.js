@@ -89,7 +89,6 @@ rutas.get('/retroceder',(req,res)=>{
   res.redirect('torneos')
 })
 
-
 rutas.get('/editar-torneo',(req,res)=>{
   return torneo.findAll({
         where:{
@@ -141,8 +140,6 @@ rutas.get('/organizar-torneo',(req,res)=>{
     console.log(error)
     res.status(500).send(error)
 })
-  
-  //muestra pagina con info del torneo junto a botones: "ver equipos","ver fixture","ver tabla  "
 })
 
 
