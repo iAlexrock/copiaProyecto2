@@ -36,7 +36,7 @@ rutas.get('/',(req,res)=>{
     //5 por pagina
     usuario.find({ })
     .then(rpta=>{        
-        res.redirect('/admin/consultar-usuarios')
+        res.redirect('/admin/consultar-usuarios/1')
     })
     .catch(error => {
         console.log(error)
@@ -45,16 +45,24 @@ rutas.get('/',(req,res)=>{
 })
 
 //Consultar usuarios
-rutas.get('/consultar-usuarios',(req,res) =>{
-    usuario.find({})
-    .then(rpta => {
-        res.render('listado-usuarios', {lusuarios: rpta})
-    })
-    .catch(error => {
-        console.log(error)
-        res.status(500).send(error)
-    })
+rutas.get('/consultar-usuarios/:page', (req,res,next) =>{
 
+    let perPage= 5;
+    let page= req.params.page || 1;    
+        usuario
+        .find({})
+        .skip((perPage * page)- perPage)
+        .limit(perPage)
+        .exec((err,usuarios) =>{
+            usuario.countDocuments((err,count)=>{
+                if(err) return next(err);
+                res.render('listado-usuarios',{
+                    usuarios, //lista que retorna .find .skip
+                    current: page, //permitira crear la cantidad de nuevos botones
+                    pages: Math.ceil(count/perPage), //numero de paginas que se van a generar redondeado al mayor                               
+                })
+            })
+        })
 })
 //Crear usuario
 rutas.get('/crear-usuario',(req,res)=>{
@@ -78,7 +86,7 @@ rutas.post('/crear-usuario',async (req,res)=>{
         })       
             nuevousuario.password =  await nuevousuario.encryptPassword(password);   
             await nuevousuario.save(); 
-            res.redirect('/admin/consultar-usuarios')
+            res.redirect('/admin/consultar-usuarios/1')
                        
     }
     else if(req.body.rol=="Organizador"){
@@ -90,7 +98,7 @@ rutas.post('/crear-usuario',async (req,res)=>{
         })    
         nuevousuario.password =  await nuevousuario.encryptPassword(password);   
         await nuevousuario.save(); 
-        res.redirect('/admin/consultar-usuarios')             
+        res.redirect('/admin/consultar-usuarios/1')             
     }
     else{
         equipo.create({
@@ -106,7 +114,7 @@ rutas.post('/crear-usuario',async (req,res)=>{
             })            
                 nuevousuario.password =  await nuevousuario.encryptPassword(password);   
                 await nuevousuario.save();
-                res.redirect('/admin/consultar-usuarios')            
+                res.redirect('/admin/consultar-usuarios/1')            
         })                      
     } 
          
@@ -196,8 +204,8 @@ rutas.get('/editar-usuario', (req,res)=>{
             _id: req.query.id            
         })
         .then(rpta=>{
-            console.log(rpta)
-            res.render('editar-usuarios',{lusuarios: rpta, })
+            console.log(rpta)            
+            res.render('editar-usuarios',{usuarios: rpta})
         })
         
 })
@@ -207,26 +215,7 @@ rutas.post('/editar-usuario', (req,res)=>{
     //CONFIRMAR QUE CORREO NO ESTE REGISTRADO PREVIAMENTE
     //mostrar mensaje de error en todo caso (no pop up)
     //res.redirect a listado de usuarios
-    if(req.body.nombre.length==0){
-        return usuario.find({
-           id:req.body.idedit
-        })
-        .then(rpta=>{
-            res.render('editar-usuarios', {lusuarios:rpta})
-        })        
-    }
-/*
-    return usuario.find({
-        nombre: req.body.nombre,
-        rol: req.body.rol,
-        correo: req.body.correo      
-        
-    }, 
-    {
-        where: {id:{[Op.eq]: req.body.idedit}}
-    }
-    )
-    */
+    
     usuario.findOneAndUpdate( 
         {_id: req.body.idedit},
 
@@ -242,5 +231,4 @@ rutas.post('/editar-usuario', (req,res)=>{
             res.redirect('consultar-usuarios')
     })   
 })
-
 module.exports =rutas
