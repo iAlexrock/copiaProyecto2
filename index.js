@@ -87,6 +87,7 @@ const lider = require('./routes/Lider'); //rutas para entrar como lider
 app.use('/sign-in' , ingreso); //eldrick
 app.use('/log' , logeo); //eldrick
 app.use('/logout' , logout); //eldrick
+
 app.use('/admin',admin); //alejo <3 
 app.use('/lider',lider); //rodrigo
 

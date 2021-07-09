@@ -116,5 +116,12 @@ rutas.post('/retroceder-lider',(req,res)=>{
     res.redirect('torneos')
     //mostrar listado de  torneos, si no se está inscrito aparece boton "incribirse"
 })
+rutas.get('/ver-torneo',(req,res)=>{
+    torneo.findOne({
+        where:{id:req.query.id}
+    }).then(rpta=>{
+        res.render('lider-ver-torneo',{torneo: rpta})
+    })
+})
 
 module.exports =rutas
