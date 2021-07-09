@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Equipo.hasOne(models.Lider,{foreignKey:'IdEquipo', as:'liders'})
+      
       Equipo.hasMany(models.EquipoTorneo,{foreignKey:'IdEquipo', as:'equipotorneos'})
       Equipo.hasMany(models.Partida,{foreignKey:'IdEquipo1', as:'p1'})
       Equipo.hasMany(models.Partida,{foreignKey:'IdEquipo2', as:'p2'})

@@ -72,8 +72,7 @@ rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
     puntajeGanar: req.body.puntajeGanar,
     puntajePerder: req.body.puntajePerder,
     puntajeEmpatar: req.body.puntajeEmpatar,
-    estado: 'abierto',
-    IdOrganizador: 1
+    estado: 'abierto'
      
   }).then(rpta =>{
     
@@ -117,14 +116,19 @@ rutas.post('/editar-torneo',(req,res)=>{
       puntajeGanar: req.body.puntajeGanar,
       puntajePerder: req.body.puntajePerder,
       puntajeEmpatar: req.body.puntajeEmpatar,
+      estado: req.body.estadotorneo
     },{
     where:{
         id:{[Op.eq]:req.body.id}
     }
     })
     .then(rpta =>{
-      res.redirect('torneos')
+      res.redirect('/organizador/torneos')
     })
+    .catch( error =>{
+      console.log(error)
+      res.status(500).send(error)
+  })
 })
 rutas.get('/organizar-torneo',(req,res)=>{
   res.render('organizador-organizart')

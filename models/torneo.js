@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Torneo.hasMany(models.Ronda,{foreignKey:'IdTorneo',as:'rondas'})
       Torneo.hasMany(models.EquipoTorneo,{foreignKey:'IdTorneo',as:'equipotorneos'})
-      Torneo.belongsTo(models.Organizador,{foreignKey:'IdOrganizador',as:'organizadors'})
     }
   };
   Torneo.init({
