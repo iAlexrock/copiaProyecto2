@@ -82,10 +82,11 @@ rutas.post('/editar-perfil',async (req,res)=>{
         }) 
       }
 })
+var LE = []
 
 rutas.get('/editar-equipo',(req,res)=>{
-    let errors = [];
-    var LE = []
+    let errors = []
+    
     equipo.findOne({where: {id:req.user.equipo}}
         ).then(rpta =>{
             res.render('editar-equipo',{errors, lequipo:rpta})
@@ -94,40 +95,27 @@ rutas.get('/editar-equipo',(req,res)=>{
 
 rutas.post('/editar-equipo',async(req,res)=>{
     let errors = [];
-
-    if(req.body.nombreEquipo.length==0)
-    {
-        return equipo.findAll({
-            where:{
-                id:req.body.equipo
-            }
-        }).then(rpta =>{
-            console.log(rpta.id),
-            res.render('editar-equipo')
-        })
-    }
-    else{
-        equipo.findAll({
-            where:{
-                nombre:req.body.nombreEquipo,
-                id:{[Op.ne]:req.body.equipo}
-            }
-        }).then(rpta=>{
-            if (rpta.length!=0){
-                return equipo.findAll({
-                    where:{
-                        id:req.body.equipo
-                    }
-                }).then(rpta =>{
-                    console.log(rpta.id),
-                    res.render('editar-equipo',{lequipo:LE})
-                })
-            }
-            else{
-                return equipo.update({
-                    nombre: req.body.nombreEquipo,
-                    integrantes: req.body.integrantes
-                },{
+    equipo.findAll({
+        where:{
+            nombre:req.body.nombreEquipo,
+            id:{[Op.ne]:req.body.equipo}
+        }
+    }).then(rpta =>{
+        if(rpta.length!=0){
+            errors.push({text: 'Equipo ya registrado.'});
+            return equipo.findAll({
+                where:{
+                    id:req.body.equipo
+                }
+            }).then(rpta =>{
+                console.log(rpta.id),
+                res.render('editar-equipo',{errors,lequipo:LE})
+            })
+        }else{
+            return equipo.update({
+                nombre: req.body.nombreEquipo,
+                integrantes: req.body.integrantes
+            },{
                 where:{
                     id:{[Op.eq]:req.body.equipo
                 }}

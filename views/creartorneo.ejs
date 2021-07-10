@@ -2,6 +2,13 @@
 <h1>crear torneo</h1>
 <h1>hola   <%= user.nombre%></h1>
 
+<% errors.forEach( function(c)  {  %> 
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <%= c.text%>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  
+<%}) %>   
 <form  action="creartorneo" method="POST">
 Nombre:
 <input type="text" name="nombre" value="">
@@ -35,21 +42,29 @@ puntaje:
 <input type="text" name="puntajeEmpatar" value="" placeholder="partida perdida">
 <br>
 
-<input type="checkbox" name="aviso" > ver confirmacion de creacion del torneo por consola
+
 <br>
 
 
 
 <input type="submit" value="Enviar" />
 
-<input type="submit"  onclick="myFunction()" value="Enviar y mostrar confirmacion" />
+<input type="submit"  onclick=conf() value="Enviar y mostrar confirmacion" />
 
+<button type="submit"onclick="return conf()" > Solicitar confirmacion y crear</button>
     
 </form>
 
-<script>
-    function myFunction() {
-      alert("torneo creado correctamente");
+<script >
+    function conf() {
+      var con = confirm("ESTAS SEGURPO DE CREAR UN TORNEO");
+      if(con == true)
+      {
+        return true;
+      }
+      else{
+        return false;
+      }
     }
 </script>
 
