@@ -84,6 +84,7 @@ rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
           fecha_ini: req.body.fecha_ini,
           fecha_fin: req.body.fecha_fin,
           maxParticipantes: req.body.maxParticipantes,
+          numParticipantes: 0,
           tipo: req.body.tipo,
           partidasxDia: req.body.partidasxDia,
           puntajeGanar: req.body.puntajeGanar,
