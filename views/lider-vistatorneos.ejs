@@ -38,13 +38,18 @@ TABLA DE TORNEOS
                         <%} 
                         
                         else if(inscrito){%>
-                            Inscrito
+                            SI
                         <%}
                         
                         else{%>
                             <form action="inscripcion" method ="GET">
+                            <input type="submit"onclick="return conf()" value="Inscribirnos"/>
+    
+                            
+
+                            
+                            
                             <input type="hidden" name="id" value="<%= elem.id %>" />
-                            <input type="submit" value="Inscribirnos" />
                             </form>
                         <%}%>
                 
@@ -54,6 +59,18 @@ TABLA DE TORNEOS
                 <%}) %>
      </tbody>
 </table>
+<script >
+                                function conf() {
+                                var con = confirm("ESTAS SEGURPO DE Inscribirte al torneo?");
+                                if(con == true)
+                                {
+                                    return true;
+                                }
+                                else{
+                                    return false;
+                                }
+                                }
+                            </script>
 
 
 

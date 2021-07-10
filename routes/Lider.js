@@ -125,7 +125,7 @@ rutas.post('/editar-equipo',async(req,res)=>{
             }
         })  
 }
-})
+)
 rutas.get('/inscripcion',(req,res)=>{
     equipotorneo.create({
         puntaje: 10000,
