@@ -126,7 +126,13 @@ rutas.post('/editar-equipo',async(req,res)=>{
         })  
 }
 )
-rutas.get('/inscripcion',(req,res)=>{
+rutas.get('/inscripcion',async (req,res)=>{
+    var torn= await torneo.findOne({
+        where:{
+            id:req.query.id
+        }
+    })
+    var increm= await torn.increment('numParticipantes',{by:1})
     equipotorneo.create({
         puntaje: 10000,
         estado: "inactivo",
