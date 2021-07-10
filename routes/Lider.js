@@ -28,7 +28,7 @@ rutas.get('/', (req,res)=>{
     torneo.findAll( {} )
       .then(ltorneos =>{
           LT = ltorneos
-          res.redirect('torneos')
+          res.redirect('/lider/torneos')
       })
 })
 

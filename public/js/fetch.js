@@ -41,7 +41,7 @@ var crearFila=(nombre, descripcion,cantidad )=>{
     button1.setAttribute("type", "button");
     button1.setAttribute("class", "btn btn-danger btn-sm");
     button1.innerHTML = "Ver";
-    //button1.addEventListener("click",  VerFixture);
+    button1.addEventListener("click",  fixture);
 
     const button2 = document.createElement("button");
     button2.setAttribute("type", "button");
@@ -58,14 +58,16 @@ var crearFila=(nombre, descripcion,cantidad )=>{
     tr.appendChild(tdfixt)
     tr.appendChild(tdtabla)
 
-    return tr;
+    return tr
 }
-var VarFixture=(event)=>{
-    console.log("crear pop up y que se vea el fixture")
+var fixture=()=>{
+    var popup = document.getElementById("myPopup");
+    popup.classList.toggle("show");
 }
 var VerTablaPosiciones=(event)=>{
     console.log("crear pop up que muestre tabla posiciones")
 }
+
 var main = () => {
     console.log("esto")
     consultarTodo();
