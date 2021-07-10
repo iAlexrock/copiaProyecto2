@@ -10,13 +10,13 @@
 <%}) %>   
     <form  action="editar-equipo" method="POST">
         id: <input type="text" name="idU" size="27" value="<%=user.id%>" readonly>
-        Equipo ID: <input type="text" name="equipo" size="27" value="<%=user.equipo%>">
+        <input hidden type="text" name="equipo" size="27" value="<%=user.equipo%>">
         Equipo NombrE: <input type="text" name="nombreEquipo" size="27" value="<%=lequipo.nombre%>">
         <br>
         Integrantes: <INPUT id=text1 style="WIDTH: 228px; HEIGHT: 98px" value="<%=lequipo.integrantes%>" size=32 name=integrantes> 
        <input type="submit"  value="Editar Equipo" />
 
-       <input type="text" name="equipoAntes" value="<%=user.equipo%>">
+       <input type="text" name="equipoAntes" hidden value="<%=user.equipo%>">
     </form>
 
 <form action="retroceder-lider" method="POST">
