@@ -19,38 +19,38 @@
     <%let current_datetime = s.fecha_ini
     let formatted_date
     console.log(current_datetime.getMonth() + 1)
-    if( (current_datetime.getMonth() + 1) < 10){
-        formatted_date = current_datetime.getFullYear() + "-0" + (current_datetime.getMonth() + 1) + "-" +current_datetime.getDate()
-    }if( (current_datetime.getDate()+1)< 10 ){
-        formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-0" +current_datetime.getDate()
-    }if( ((current_datetime.getDate()+1) < 10)  && ((current_datetime.getMonth() + 1) < 10)){
-        formatted_date = current_datetime.getFullYear() + "-0" + (current_datetime.getMonth() + 1) + "-0" +current_datetime.getDate()
+    if( (current_datetime.getMonth() ) < 10){
+        formatted_date = current_datetime.getFullYear() + "-0" + (current_datetime.getMonth() ) + "-" +current_datetime.getDate()
+    }if( (current_datetime.getDate())< 10 ){
+        formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() ) + "-0" +current_datetime.getDate()
+    }if( ((current_datetime.getDate()) < 10)  && ((current_datetime.getMonth() ) < 10)){
+        formatted_date = current_datetime.getFullYear() + "-0" + (current_datetime.getMonth() ) + "-0" +current_datetime.getDate()
     }
-    if( ((current_datetime.getDate()+1) > 9)  && ((current_datetime.getMonth() + 1) > 9)){
-        formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" +current_datetime.getDate()
+    if( ((current_datetime.getDate()) > 9)  && ((current_datetime.getMonth() ) > 9)){
+        formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() ) + "-" +current_datetime.getDate()
     } 
     console.log(formatted_date)%>
     <p>Fecha de Inicio: <input type="date" name="fecha_ini" value="<%=formatted_date%>" ></p>
 
     <%current_datetime = s.fecha_fin
     let formatted_date_fin
-    if( (current_datetime.getMonth() + 1) < 10){
-        formatted_date_fin = current_datetime.getFullYear() + "-0" + (current_datetime.getMonth() + 1) + "-" +current_datetime.getDate()
-    }if( (current_datetime.getDate()+1)< 10 ){
-        formatted_date_fin = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-0" +current_datetime.getDate()
-    }if( ((current_datetime.getDate()+1) < 10)  && ((current_datetime.getMonth() + 1) < 10)){
-        formatted_date_fin = current_datetime.getFullYear() + "-0" + (current_datetime.getMonth() + 1) + "-0" +current_datetime.getDate()
-    }if( ((current_datetime.getDate()+1) > 9)  && ((current_datetime.getMonth() + 1) > 9)){
-        formatted_date_fin = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" +current_datetime.getDate()
+    if( (current_datetime.getMonth()) < 10){
+        formatted_date_fin = current_datetime.getFullYear() + "-0" + (current_datetime.getMonth() ) + "-" +current_datetime.getDate()
+    }if( (current_datetime.getDate())< 10 ){
+        formatted_date_fin = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() ) + "-0" +current_datetime.getDate()
+    }if( ((current_datetime.getDate()) < 10)  && ((current_datetime.getMonth() ) < 10)){
+        formatted_date_fin = current_datetime.getFullYear() + "-0" + (current_datetime.getMonth()) + "-0" +current_datetime.getDate()
+    }if( ((current_datetime.getDate()) > 9)  && ((current_datetime.getMonth()) > 9)){
+        formatted_date_fin = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() ) + "-" +current_datetime.getDate()
     } 
     console.log(formatted_date_fin)%>
     <p>Fecha de Fin: <input type="date" name="fecha_fin" value="<%=formatted_date_fin%>" ></p>
-    <p>Numero de partidas por dia: <input type="text" name="partidasxDia" value="<%= s.partidasxDia %>" ></p>
+    <p>Numero de partidas por dia: <input type="text" name="partidasxDia" value="<%=s.partidasxDia%>" ></p>
     <p>ejemplo <input type="text" value="<%=s.fecha_fin%>"></p>
     <p>Puntaje:</p>   
-    <input type="text" name="puntajeGanar" value="<%= s.puntajeGanar %>" placeholder="partida ganada">
-    <input type="text" name="puntajePerder" value="<%= s.puntajePerder %>" placeholder="partida empatada">
-    <input type="text" name="puntajeEmpatar" value="<%= s.puntajeEmpatar %>" placeholder="partida perdida">
+    <input type="text" name="puntajeGanar" value="<%=s.puntajeGanar%>" placeholder="partida ganada">
+    <input type="text" name="puntajePerder" value="<%=s.puntajePerder%>" placeholder="partida empatada">
+    <input type="text" name="puntajeEmpatar" value="<%=s.puntajeEmpatar%>" placeholder="partida perdida">
     
 
     <p>Cambiar Estado del Torneo: </p> <select name= "estadotorneo">
