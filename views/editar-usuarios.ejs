@@ -1,12 +1,22 @@
+<% errors.forEach( function(c)  {  %>
+    
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%= c.text%>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+<%}) %>   
+
+
 <h1>EDITAR USUARIO</h1>
 
 <% usuarios.forEach(function(x){%>
 <form  action="editar-usuario" method="POST">
     id: <input type="text" name="idedit" size="27" value="<%=x.id%>" readonly>
     <br>
-    Nombres: <input type="text" name="nombre" />
+    Nombres: <input type="text" name="nombre" value="<%=x.nombre%>"/>
     <br>
-    Correo Electrónico : <input type="text" name="correo" />   
+    Correo Electrónico : <input type="text" name="correo" value="<%=x.correo%>" />   
     <br>    
     Rol: 
     <select name="rol" >
@@ -14,7 +24,7 @@
         <option value="Organizador">Organizador</option>
         <option value="Participante Líder">Participante Líder</option>
     </select>
-
+    <input type="text" name="anti" value="<%=x.correo%>" />   
     <br><br>
    
    <input type="submit"  value="Agregar" />
