@@ -157,7 +157,7 @@ rutas.post('/editar-torneo',(req,res)=>{
         descripcion: req.body.descripcion,
         fecha_ini: req.body.fecha_ini,
         fecha_fin: req.body.fecha_fin,
-        partidasxDia: req.body.gananciaAcum,
+        partidasxDia: req.body.partidasxDia,
         puntajeGanar: req.body.puntajeGanar,
         puntajePerder: req.body.puntajePerder,
         puntajeEmpatar: req.body.puntajeEmpatar,

@@ -70,19 +70,32 @@ rutas.post('/editar-perfil',async (req,res)=>{
     if (errors.length>0){
         res.render('editar-perfil',{errors})
         }else{
-            usuario.findOneAndUpdate( 
-            {_id: req.body.idU},
-                {   
-                    nombre: req.body.nombre,
-                    correo: req.body.correo,
-                },  
-                {runValidators:true}       
-            )   
-            .then(rpta=>{
-                    console.log(rpta)
-                    res.redirect('torneos')
-            }) 
-          }
+            if(req.body.contra != ""){
+                usuario.findOneAndUpdate( 
+                    {_id: req.body.idU},
+                        {   
+                            nombre: req.body.nombre,
+                            correo: req.body.correo,
+                            password: await req.user.encryptPassword(req.body.contra)
+                        },  
+                        {runValidators:true}       
+                    ).then(rpta=>{
+                            res.redirect('torneos')
+                    }) 
+            }else{
+                usuario.findOneAndUpdate( 
+                    {_id: req.body.idU},
+                        {   
+                            nombre: req.body.nombre,
+                            correo: req.body.correo,
+                        },  
+                        {runValidators:true}       
+                    )   
+                    .then(rpta=>{
+                            res.redirect('torneos')
+                    }) 
+            }     
+        }
 })
 var LE = []
 
