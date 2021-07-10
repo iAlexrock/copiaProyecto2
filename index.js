@@ -44,8 +44,11 @@ app.use((req,res,next)=>{
   res.locals.error_msg = req.flash('error_msg');
   res.locals.error = req.flash('error');
   res.locals.user = req.user || null;
+  
   next();
 })
+
+
 /* MAnejo de Sesion 
 
 
@@ -91,9 +94,17 @@ app.use('/home' , home); //eldrick
 app.use('/espectador' , espectador); 
 
 
+ 
 app.use('/organizador' , organizador); 
+
+
 app.use('/admin',admin); //alejo <3 
+
+
 app.use('/lider',lider); //rodrigo
+
+
+
 
 
 

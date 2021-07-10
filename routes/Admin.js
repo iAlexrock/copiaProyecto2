@@ -33,7 +33,7 @@ rutas.use(par.array()) //para multer
 
 
 
-rutas.get('/',(req,res)=>{
+rutas.get('/',isAuthenticated,(req,res)=>{
     //MOSTRAR TODOS LOS USUARIOS 
     //5 por pagina
     
@@ -56,7 +56,7 @@ rutas.get('/',(req,res)=>{
 })
 
 //Consultar usuarios
-rutas.get('/consultar-usuarios/:page', (req,res,next) =>{
+rutas.get('/consultar-usuarios/:page',isAuthenticated, (req,res,next) =>{
 
     let perPage= 5;
     let page= req.params.page || 1;    
@@ -76,14 +76,14 @@ rutas.get('/consultar-usuarios/:page', (req,res,next) =>{
         })
 })
 //Crear usuario
-rutas.get('/crear-usuario',(req,res)=>{
+rutas.get('/crear-usuario',isAuthenticated,(req,res)=>{
     let errors = [];
 
 
     res.render('agregar-usuarios',{errors})
 })
 
-rutas.post('/crear-usuario',async (req,res)=>{
+rutas.post('/crear-usuario',isAuthenticated,async (req,res)=>{
     const {nombre,correo,rol}= req.body;   
     const password= "12345" 
     let errors = [];
@@ -150,7 +150,7 @@ rutas.post('/crear-usuario',async (req,res)=>{
 })
 
 
-rutas.post('/filtrar-usuarios', (req,res)=>{
+rutas.post('/filtrar-usuarios',isAuthenticated, (req,res)=>{
     //FILTRAR POR NOMBRE/CORREO Y ROL
     usuario.find(
         {
@@ -176,7 +176,7 @@ rutas.post('/filtrar-usuarios', (req,res)=>{
 
 
 //ORDENAR
-rutas.post('/ordenar-usuarios', (req,res) =>{
+rutas.post('/ordenar-usuarios',isAuthenticated, (req,res) =>{
     
     if(req.body.tipoOrdenado == "Admin"){
             usuario.find(
@@ -223,7 +223,7 @@ rutas.post('/ordenar-usuarios', (req,res) =>{
 })
 
 var uu=[]
-rutas.get('/editar-usuario', (req,res)=>{
+rutas.get('/editar-usuario',isAuthenticated, (req,res)=>{
     //ABRIR PAGINA EDITAR
     //ESCRIBIR LOS DATOS A EDITAR
     let errors = [];
@@ -240,7 +240,7 @@ rutas.get('/editar-usuario', (req,res)=>{
         
 })
 
-rutas.post('/editar-usuario',async (req,res)=>{
+rutas.post('/editar-usuario',isAuthenticated,async (req,res)=>{
     //ENVIAR DATOS DE USUARIO EDITADO
     //CONFIRMAR QUE CORREO NO ESTE REGISTRADO PREVIAMENTE
     //mostrar mensaje de error en todo caso (no pop up)

@@ -6,7 +6,7 @@ const rutas = express.Router()
 const Sequelize = require('sequelize')
 const models= require('../models')
 const  torneo= models.Torneo
-
+const {isAuthenticated} = require('../helpers/auth')
 const {Op}= require("sequelize")
 
 //MULTER

@@ -89,7 +89,7 @@ rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
           fecha_fin: req.body.fecha_fin,
           maxParticipantes: req.body.maxParticipantes,
           numParticipantes: parti,
-          tipo: req.body.tipo,
+          tipo: "todos contra todos",
           partidasxDia: req.body.partidasxDia,
           puntajeGanar: req.body.puntajeGanar,
           puntajePerder: req.body.puntajePerder,
@@ -110,11 +110,11 @@ rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
   
 })
 
-rutas.get('/retroceder',(req,res)=>{
+rutas.get('/retroceder',isAuthenticated,(req,res)=>{
   res.redirect('torneos')
 })
 var LTor = []
-rutas.get('/editar-torneo',(req,res)=>{
+rutas.get('/editar-torneo',isAuthenticated,(req,res)=>{
   let errors = [];
   return torneo.findAll({
         where:{
@@ -131,7 +131,7 @@ rutas.get('/editar-torneo',(req,res)=>{
         res.status(500).send(error)
     })
 })
-rutas.post('/editar-torneo',(req,res)=>{
+rutas.post('/editar-torneo',isAuthenticated,(req,res)=>{
   //envia los campos editados del torneo
   let errors = [];
   torneo.findAll({
@@ -157,7 +157,7 @@ rutas.post('/editar-torneo',(req,res)=>{
         descripcion: req.body.descripcion,
         fecha_ini: req.body.fecha_ini,
         fecha_fin: req.body.fecha_fin,
-        partidasxDia: req.body.gananciaAcum,
+        partidasxDia: req.body.partidasxDia,
         puntajeGanar: req.body.puntajeGanar,
         puntajePerder: req.body.puntajePerder,
         puntajeEmpatar: req.body.puntajeEmpatar,
@@ -179,7 +179,7 @@ rutas.post('/editar-torneo',(req,res)=>{
   
 })
 
-rutas.get('/organizar-torneo',(req,res)=>{
+rutas.get('/organizar-torneo',isAuthenticated,(req,res)=>{
   torneo.findOne({
     where: {id: req.query.id}
   }).then(rpta=>{
@@ -193,7 +193,7 @@ rutas.get('/organizar-torneo',(req,res)=>{
 
 
 
-rutas.get('/ver-equipos-torneo',async (req,res)=>{
+rutas.get('/ver-equipos-torneo',isAuthenticated,async (req,res)=>{
   
   const infot= await torneo.findOne({//recoge info del torneo en cuestión
     where: {id: req.query.torneo}
@@ -213,10 +213,10 @@ rutas.get('/ver-equipos-torneo',async (req,res)=>{
   //ver integrantes de cada equipo al seleccionar "mostrar usuarios"
   //boton guardar y volver
 })
-rutas.post('/ver-equipos-torneo',(req,res)=>{
+rutas.post('/ver-equipos-torneo',isAuthenticated,(req,res)=>{
   //guarda los estados de los equipos del torneo
 })
-rutas.get('/ver-fixture-torneo',(req,res)=>{
+rutas.get('/ver-fixture-torneo',isAuthenticated,(req,res)=>{
   torneo.findOne({
     where: {id: req.query.torneo}
   }).then(rpta=>{
@@ -225,10 +225,10 @@ rutas.get('/ver-fixture-torneo',(req,res)=>{
   //Mostrar fixture de las rondas y partidas del torneo
   //Mostrar un selector de ganador por cada partida
 })
-rutas.post('/ver-fixture-torneo',(req,res)=>{
+rutas.post('/ver-fixture-torneo',isAuthenticated,(req,res)=>{
   //Guardar ganadores de cada partida editada
 })
-rutas.get('/ver-tabla-torneo',async(req,res)=>{
+rutas.get('/ver-tabla-torneo',isAuthenticated,async(req,res)=>{
   //se necesita equipotorneo(encontrar equipos), equipo (nombre), torneo (puntajes,id ) ronda (partidas),partidas (ganador),
   const torneos= await torneo.findOne({
     where: {id: req.query.torneo}
