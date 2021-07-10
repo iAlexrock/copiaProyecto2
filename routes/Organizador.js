@@ -244,5 +244,28 @@ rutas.get('/ver-tabla-torneo',async(req,res)=>{
 })
 })
 
+rutas.get('/consultar-torneos/:page', (req,res,next) =>{
+
+  let perPage= 5;
+  let page= req.params.page || 1;    
+      torneo
+      .findAll({
+        offset:(perPage * page)- perPage,
+        limit: perPage
+      })
+      .then((torneos) =>{
+          torneo.count().then(count=>{
+            if(count==0) return next(0);
+            res.render('org-listado-torneos',{
+                  torneos, //lista que retorna .find .skip
+                  current: page, //permitira crear la cantidad de nuevos botones
+                  pages: Math.ceil(count/perPage), //numero de paginas que se van a generar redondeado al mayor                               
+              })
+          })
+      }).catch( error =>{
+        console.log(error)
+        res.status(500).send(error)
+    })
+})
 
 module.exports =rutas

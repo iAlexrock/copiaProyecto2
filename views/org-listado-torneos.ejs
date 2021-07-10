@@ -1,0 +1,91 @@
+<h1>Bienvenido!</h1>
+<p>El egresado de la Carrera de Ingeniería de Sistemas está preparado para afrontar los retos y las exigencias de las organizaciones, gracias a su capacidad para integrar los procesos de negocios y de proponer, desarrollar, implementar y gestionar soluciones basadas en tecnologías de información.</p>
+<h3> hola </h3>
+
+Filtrar Nombre:
+<form action="/organizador/filtrar-torneos" style="display:inline" method="POST">
+    <input type="text" name="filtrado" placeholder="Buscar nombre">
+    <input type="submit" value="Aplicar">
+</form>
+
+<a type="button" class="btn btn-primary btn-block" href="/organizador/creartorneo">crear nuevo torneo</a>
+   
+<table class="table">
+    <thead>
+        <tr>
+            <th>-- ID -</th>
+            <th>- Nombre -</th>
+            <th>- Descripcion -</th>
+            <th>- Fecha de Inicio -</th>
+            <th>- Fecha de Fin</th>
+            <th>- Num de participantes - </th>
+            <th>- Accion 1 --</th>
+        </tr>
+    </thead>
+    <tbody id="datos">
+             <% torneos.forEach( function(elem) { %>
+                <tr>
+                    <td><%= elem.id %></td>
+                    <td><%= elem.nombre %></td>
+                    <td><%= elem.descripcion %></td>
+                    <td><%= elem.fecha_ini %></td>
+                    <td><%= elem.fecha_fin %> </td>
+                    <td><%= elem.maxParticipantes %></td>
+                    <td>Todos contra Todos</td>
+                <td>
+                    <form action="editar-torneo">
+                        <input type="hidden" name="id" value="<%= elem.id %>" />
+                        <input type="submit" value="Editar" />
+                    </form>
+                    <form action="organizar-torneo">
+                        <input type="hidden" name="id" value="<%= elem.id %>" />
+                        <input type="submit" value="Organizar" />
+                    </form>
+                </td>
+                <td>
+                    
+                </td>
+                </tr>
+             <% }) %>
+     </tbody>
+</table>
+
+<% if(pages){ %>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-md-center">
+            <% if(current==1) {%>
+                <li class="page-item disabled"><a href="#" class="page-link">First Page</a> </li>
+                <li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>                
+            <% } else{ %>
+                <li class="page-item "><a href="/organizador/consultar-torneos/1" class="page-link">First Page</a> </li>
+                <li class="page-item "><a href="/organizador/consultar-torneos/<%- Number(current)-1%>" class="page-link">Previous</a></li>                 
+            <% }%>
+            <% var i=(Number(current)>5?Number(current)-4:1)%>
+            <% if(i!==1){%>
+                <a href="#" class="page-link">...</a>
+            <%}%>
+
+            <%for(i;i<=(Number(current)+4) && i<=pages;i++ ){%>
+                <%if(i==current){%>
+                    <li class="page-item"><a href="#" class="page-link"><%= i %></a></li>
+                <%} else{%>
+                    <li class="page-item"><a href="/organizador/consultar-torneos/<%=i %>" class="page-link"><%= i %></a></li>
+                <%}%>
+                <% if(i==Number(current)+4 && i < pages){%>
+                    <a href="#" class="page-link">...</a>
+                <%}%>                    
+            <%}%>
+            <% if(current==pages) {%>
+                <li class="page-item disabled"><a href="#" class="page-link">Next</a></li> 
+                <li class="page-item disabled"><a href="#" class="page-link">Last Page</a> </li>
+            <%}else{%>
+                <li class="page-item "><a href="/organizador/consultar-torneos/<%- Number(current)+1%>" class="page-link">Next</a></li>
+                <li class="page-item "><a href="/organizador/consultar-torneos/<%=pages%>" class="page-link">Last Page</a> </li>
+            <%}%>
+
+        </ul>
+    </nav>
+<% } %>    
+
+
+
