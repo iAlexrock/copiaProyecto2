@@ -1,0 +1,25 @@
+NOMBRE DEL TORNEO:
+<h1><%= torneo.nombre%></h1>
+<p>Descripción del torneo: </p><%= torneo.descripcion%>
+<h3>🍟🍟🍟🍟🍟</h3>
+<p>Fecha de inicio: <%=torneo.fecha_ini%></p>
+<p>Fecha de fin:<%=torneo.fecha_fin%></p>
+<p>Estado:<%=torneo.estado%></p>
+
+<div class="table">
+    <div class="f_row">
+        <div class="column">Nombre del Equipo</div>
+        <div class="column">Integrantes</div>
+        <div class="column">Estado</div>
+    </div>
+    <% lequipos.forEach(function(elem){
+        idequipos.forEach(function(elem2){
+            if (elem.id==elem2.IdEquipo){%>
+                <div class="f_row">
+                    <div class="column"> <%=elem.nombre%></div>
+                    <div class="column"> <%=elem.integrantes%></div>
+                    <div class="column"> <%=elem2.estado%></div>
+                </div>
+            <%}})    
+})%>
+</div>

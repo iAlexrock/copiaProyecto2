@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     puntajeGanar: DataTypes.INTEGER,
     puntajePerder: DataTypes.INTEGER,
     puntajeEmpatar: DataTypes.INTEGER,
+    numParticipantes: DataTypes.INTEGER,
     estado: DataTypes.STRING,
     numRondas: DataTypes.INTEGER
   }, {

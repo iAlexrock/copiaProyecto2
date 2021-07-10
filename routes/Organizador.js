@@ -12,7 +12,7 @@ const Sequelize = require('sequelize')
 const models= require('../models')
 // const  admin= models.Administrador
 const lider= models.Lider
-const organizador=models.Organizador
+const equipo=models.Equipo
 const torneo=models.Torneo
 const equipoTorneo= models.EquipoTorneo
 
@@ -81,13 +81,14 @@ rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
         errors.push({text: 'Nombre de Torneo ya registrado.'});
         res.render('creartorneo',{listatorneos: LT,errors})
       }else{
+        const parti=0
         torneo.create({
           nombre: req.body.nombre,
           descripcion: req.body.descripcion,
           fecha_ini: req.body.fecha_ini,
           fecha_fin: req.body.fecha_fin,
           maxParticipantes: req.body.maxParticipantes,
-          numParticipantes: 0,
+          numParticipantes: parti,
           tipo: req.body.tipo,
           partidasxDia: req.body.partidasxDia,
           puntajeGanar: req.body.puntajeGanar,
@@ -192,7 +193,21 @@ rutas.get('/organizar-torneo',(req,res)=>{
 
 
 
-rutas.get('/ver-equipos-torneo',(req,res)=>{
+rutas.get('/ver-equipos-torneo',async (req,res)=>{
+  
+  const infot= await torneo.findOne({//recoge info del torneo en cuestión
+    where: {id: req.query.torneo}
+  })
+  const idequipos= await equipoTorneo.findAll({//recoge a todos los equipos participantes del torneo
+    where:{IdTorneo:infot.id}
+  })
+  const lequipos= await equipo.findAll({  //recoge a todos los equipos
+  })
+  
+
+    res.render('org-equipostorneo',{torneo:infot,idequipos,lequipos  } )
+  
+  
   //Mostrar listado de equipos
   //se puede seleccionar el estado de cada equipo en el torneo
   //ver integrantes de cada equipo al seleccionar "mostrar usuarios"
@@ -202,18 +217,26 @@ rutas.post('/ver-equipos-torneo',(req,res)=>{
   //guarda los estados de los equipos del torneo
 })
 rutas.get('/ver-fixture-torneo',(req,res)=>{
+  torneo.findOne({
+    where: {id: req.query.torneo}
+  }).then(rpta=>{
+    res.render('org-fixture',{torneo:rpta} )
+  })
   //Mostrar fixture de las rondas y partidas del torneo
   //Mostrar un selector de ganador por cada partida
 })
 rutas.post('/ver-fixture-torneo',(req,res)=>{
   //Guardar ganadores de cada partida editada
 })
-rutas.get('/ver-tabla-torneo',(req,res)=>{
+rutas.get('/ver-tabla-torneo',async(req,res)=>{
   //se necesita equipotorneo(encontrar equipos), equipo (nombre), torneo (puntajes,id ) ronda (partidas),partidas (ganador),
+  const torneos= await torneo.findOne({
+    where: {id: req.query.torneo}
+  })
   return equipoTorneo.findAll({
       where:{IdTorneo:req.query.torneo}
       }).then(rpta=>{
-        res.render('org-tablatorneo', {lequipos:rpta})
+        res.render('org-tablatorneo', {lequipos:rpta, torneo:torneos})
   
   }).catch( error =>{
     console.log(error)
