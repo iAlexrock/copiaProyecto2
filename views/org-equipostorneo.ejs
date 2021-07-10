@@ -6,20 +6,42 @@ NOMBRE DEL TORNEO:
 <p>Fecha de fin:<%=torneo.fecha_fin%></p>
 <p>Estado:<%=torneo.estado%></p>
 
-<div class="table">
-    <div class="f_row">
-        <div class="column">Nombre del Equipo</div>
-        <div class="column">Integrantes</div>
-        <div class="column">Estado</div>
-    </div>
-    <% lequipos.forEach(function(elem){
-        idequipos.forEach(function(elem2){
-            if (elem.id==elem2.IdEquipo){%>
-                <div class="f_row">
-                    <div class="column"> <%=elem.nombre%></div>
-                    <div class="column"> ver integrantes </div>   <!--<%=elem.integrantes%> -->
-                    <div class="column"> <%=elem2.estado%></div>
-                </div>
-            <%}})    
-})%>
-</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th >Nombre del Equipo</th>
+            <th >Integrantes</th>
+            <th >Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+    <% lequipos.forEach(function(elem){%>
+        <tr>
+            <%idequipos.forEach(function(elem2){
+                if (elem.id==elem2.IdEquipo){%>
+                
+                    <td > <%=elem.nombre%></td>
+                    <td  ><p id="ver" onclick="fun()">Ver integrantes</p>
+                        <p id="integrantes" style="display: none" ><br> <%=elem.integrantes%></p></td>   <!-- -->
+                    <td > <%=elem2.estado%></td>
+                
+            <%}})%>
+            </tr>    
+        <%})%>
+    
+    </tbody>
+</table>
+
+<script >
+    function fun() {
+        var text = document.getElementById("integrantes");
+        if (text.style.display === "none") {
+            text.style.display = "block";
+            document.getElementById("ver").innerHTML="Ocultar integrantes"
+        } else {
+            text.style.display = "none";
+            document.getElementById("ver").innerHTML="Ver integrantes"
+        }
+    }
+    
+</script>
