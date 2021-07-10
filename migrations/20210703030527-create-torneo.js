@@ -23,6 +23,9 @@ module.exports = {
       maxParticipantes: {
         type: Sequelize.INTEGER
       },
+      numParticipantes:{
+        type: Sequelize.INTEGER
+      },
       tipo: {
         type: Sequelize.STRING
       },
