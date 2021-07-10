@@ -15,6 +15,8 @@ const passport=require('passport');
 
 const {Op}= require("sequelize")
 
+const app = express();
+
 //MULTER
 const multer = require('multer')
 const par = multer()
@@ -32,7 +34,7 @@ var rolo =""
 rutas.get('/',(req,res)=>{
   let errors = [];
   console.log("------------>" + rolo)
-  
+ 
    rolo=req.user.rol
    console.log("------------->>"+ rolo)
     res.render('home')

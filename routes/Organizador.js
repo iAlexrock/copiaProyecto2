@@ -89,7 +89,7 @@ rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
           fecha_fin: req.body.fecha_fin,
           maxParticipantes: req.body.maxParticipantes,
           numParticipantes: parti,
-          tipo: req.body.tipo,
+          tipo: "todos contra todos",
           partidasxDia: req.body.partidasxDia,
           puntajeGanar: req.body.puntajeGanar,
           puntajePerder: req.body.puntajePerder,
