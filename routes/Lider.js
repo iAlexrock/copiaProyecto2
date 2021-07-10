@@ -59,28 +59,30 @@ rutas.get('/editar-perfil',(req,res)=>{
 
 rutas.post('/editar-perfil',async (req,res)=>{
     let errors = [];
-    const usuariocorreo = await usuario.findOne({correo: req.body.correo}) 
-    if (usuariocorreo){
-        errors.push({text: 'Correo ya registrado'})
+    const antiguo = req.body.correoAntiguo
+    
+    if(antiguo != req.body.correo){
+        const usuariocorreo = await usuario.findOne({correo: req.body.correo}) 
+        if (usuariocorreo){
+            errors.push({text: 'Correo ya registrado'})
+        }
     }
-
     if (errors.length>0){
         res.render('editar-perfil',{errors})
-      }else{
-        usuario.findOneAndUpdate( 
+        }else{
+            usuario.findOneAndUpdate( 
             {_id: req.body.idU},
-            {   
-                nombre: req.body.nombre,
-                correo: req.body.correo,
-                password: req.body.contra
-            },  
-            {runValidators:true}       
-        )   
-        .then(rpta=>{
-                console.log(rpta)
-                res.redirect('torneos')
-        }) 
-      }
+                {   
+                    nombre: req.body.nombre,
+                    correo: req.body.correo,
+                },  
+                {runValidators:true}       
+            )   
+            .then(rpta=>{
+                    console.log(rpta)
+                    res.redirect('torneos')
+            }) 
+          }
 })
 var LE = []
 
@@ -126,7 +128,13 @@ rutas.post('/editar-equipo',async(req,res)=>{
         })  
 }
 )
-rutas.get('/inscripcion',(req,res)=>{
+rutas.get('/inscripcion',async (req,res)=>{
+    var torn= await torneo.findOne({
+        where:{
+            id:req.query.id
+        }
+    })
+    var increm= await torn.increment('numParticipantes',{by:1})
     equipotorneo.create({
         puntaje: 10000,
         estado: "inactivo",

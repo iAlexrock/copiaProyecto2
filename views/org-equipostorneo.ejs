@@ -1,0 +1,47 @@
+NOMBRE DEL TORNEO:
+<h1><%= torneo.nombre%></h1>
+<p>Descripción del torneo: </p><%= torneo.descripcion%>
+<h3>🍟🍟🍟🍟🍟</h3>
+<p>Fecha de inicio: <%=torneo.fecha_ini%></p>
+<p>Fecha de fin:<%=torneo.fecha_fin%></p>
+<p>Estado:<%=torneo.estado%></p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th >Nombre del Equipo</th>
+            <th >Integrantes</th>
+            <th >Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+    <% lequipos.forEach(function(elem){%>
+        <tr>
+            <%idequipos.forEach(function(elem2){
+                if (elem.id==elem2.IdEquipo){%>
+                
+                    <td > <%=elem.nombre%></td>
+                    <td  ><p id="ver" onclick="fun()">Ver integrantes</p>
+                        <p id="integrantes" style="display: none" ><br> <%=elem.integrantes%></p></td>   <!-- -->
+                    <td > <%=elem2.estado%></td>
+                
+            <%}})%>
+            </tr>    
+        <%})%>
+    
+    </tbody>
+</table>
+
+<script >
+    function fun() {
+        var text = document.getElementById("integrantes");
+        if (text.style.display === "none") {
+            text.style.display = "block";
+            document.getElementById("ver").innerHTML="Ocultar integrantes"
+        } else {
+            text.style.display = "none";
+            document.getElementById("ver").innerHTML="Ver integrantes"
+        }
+    }
+    
+</script>

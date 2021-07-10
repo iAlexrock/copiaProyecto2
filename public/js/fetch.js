@@ -61,7 +61,10 @@ var crearFila=(nombre, descripcion,cantidad )=>{
     return tr;
 }
 var VarFixture=(event)=>{
-
+    console.log("crear pop up y que se vea el fixture")
+}
+var VerTablaPosiciones=(event)=>{
+    console.log("crear pop up que muestre tabla posiciones")
 }
 var main = () => {
     console.log("esto")
