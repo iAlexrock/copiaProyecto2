@@ -4,7 +4,6 @@ ESTA ES LA PAGINA PRINCIPAL DE LOS LIDERES
 TABLA DE TORNEOS
 <h1>HOLAAA</h1>
 
-&nbsp; &nbsp; &nbsp;
 <form action="torneos" style="display:inline" method="POST">
     Filtrar Por Estado: 
     <select name="estadoOrdenado" >
@@ -15,6 +14,15 @@ TABLA DE TORNEOS
 
     <input type="submit" value="Aplicar">
 </form>  
+&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<form action="torneos" style="display:inline" method="POST">
+    Filtrar Por Estado: 
+    <select name="inscripcionOrdenado" >
+        <option value="Inscrito">Inscrito</option>
+        <option value="No inscrito">No Inscrito</option>
+    </select>
+    <input type="submit" value="Aplicar">
+</form>  
 
 <table class="table">
     <thead>
@@ -23,6 +31,7 @@ TABLA DE TORNEOS
             <th>- Nombre -</th>
             <th>- Estado -</th>
             <th>- Maximo de particpantes -</th>
+            <th>--</th>
             <th>- Inscrito ? --</th>
         </tr>
     </thead>
@@ -33,27 +42,32 @@ TABLA DE TORNEOS
                     <td><%=elem.nombre%></td>
                     <td><%=elem.estado%></td>
                     <td><%=elem.maxParticipantes%></td>
-                    
+                    <td><form action="ver-torneo" method ="get">
+                        <input type="hidden" name="id" value="<%= elem.id %>" />
+                        <input type="submit" value="Ver">
+                    </form></td>
                 <td>
                     <% var inscrito= false 
                     linscrito.forEach(function(c){
                         if(elem.id == c.IdTorneo){ 
                             inscrito= true
                         }})%>
-                    <%if (inscrito && (elem.estado=="abierto"|| elem.estado=="en curso")){%>
-                           <form action="ver-torneo" method ="get">
-                            <input type="hidden" name="id" value="<%= elem.id %>" />
-                            <input type="submit" value="Ver">
-                            </form>
+                    <%if (elem.estado!="abierto" || elem.maxParticipantes== elem.numParticipantes){%>
+                            ---
                         <%} 
                         
-                        else if(elem.estado!="abierto" || elem.maxParticipantes== elem.numParticipantes){%>
-                            ---
+                        else if(inscrito){%>
+                            SI
                         <%}
                         
                         else{%>
                             <form action="inscripcion" method ="GET">
                             <input type="submit"onclick="return conf()" value="Inscribirnos"/>
+    
+                            
+
+                            
+                            
                             <input type="hidden" name="id" value="<%= elem.id %>" />
                             </form>
                         <%}%>
