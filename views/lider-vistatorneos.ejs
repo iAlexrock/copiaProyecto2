@@ -4,6 +4,17 @@ ESTA ES LA PAGINA PRINCIPAL DE LOS LIDERES
 TABLA DE TORNEOS
 <h1>HOLAAA</h1>
 
+&nbsp; &nbsp; &nbsp;
+<form action="torneos" style="display:inline" method="POST">
+    Filtrar Por Estado: 
+    <select name="estadoOrdenado" >
+        <option value="Abierto">Abierto</option>
+        <option value="En curso">En curso</option>
+        <option value="Cerrado">Cerrado</option>
+    </select>
+
+    <input type="submit" value="Aplicar">
+</form>  
 
 <table class="table">
     <thead>
@@ -28,15 +39,49 @@ TABLA DE TORNEOS
                         <input type="submit" value="Ver">
                     </form></td>
                 <td>
+                    <% var inscrito= false 
+                    linscrito.forEach(function(c){
+                        if(elem.id == c.IdTorneo){ 
+                            inscrito= true
+                        }})%>
+                    <%if (elem.estado!="abierto" || elem.maxParticipantes== elem.numParticipantes){%>
+                            ---
+                        <%} 
+                        
+                        else if(inscrito){%>
+                            SI
+                        <%}
+                        
+                        else{%>
                             <form action="inscripcion" method ="GET">
+                            <input type="submit"onclick="return conf()" value="Inscribirnos"/>
+    
+                            
+
+                            
+                            
                             <input type="hidden" name="id" value="<%= elem.id %>" />
-                            <input type="submit" value="Inscribirnos" />
                             </form>
+                        <%}%>
+                
+                    
                 </td>
                 </tr>
                 <%}) %>
      </tbody>
 </table>
+<script >
+                                function conf() {
+                                var con = confirm("ESTAS SEGURPO DE Inscribirte al torneo?");
+                                if(con == true)
+                                {
+                                    return true;
+                                }
+                                else{
+                                    return false;
+                                }
+                                }
+                            </script>
 
 
 

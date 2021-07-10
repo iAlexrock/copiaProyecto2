@@ -2,15 +2,12 @@ const express = require("express")
 const bodyParser= require("body-parser")
 
 const rutas = express.Router()
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-
-const bcrypt = require('bcryptjs');
+var mongoose = require('mongoose');
 const Sequelize = require('sequelize')
 const models= require('../models')
 //const  admin= models.Administrador
 const lider= models.Lider
-const organizador=models.Organizador
+const equipotorneo=models.EquipoTorneo
 const usuario=require('../models/usuario')
 const torneo=models.Torneo
 const equipo=models.Equipo
@@ -18,10 +15,8 @@ const {Op}= require("sequelize")
 
 const user = require('../index')
 //MULTER
-const multer = require('multer');
-const { findById } = require("../models/usuario");
+const multer = require('multer')
 const par = multer()
-
 
 //Parsing de los datos
 rutas.use(express.urlencoded({extended:true}))
@@ -33,16 +28,20 @@ rutas.get('/', (req,res)=>{
     torneo.findAll( {} )
       .then(ltorneos =>{
           LT = ltorneos
+          res.redirect('torneos')
       })
 })
 
 
-rutas.get('/torneos',(req,res)=>{
-    
-    torneo.findAll( {} )
-    .then(rpta=>{
-        res.render('lider-vistatorneos',{ ltorneos: rpta})
+rutas.get('/torneos',async(req,res)=>{
+    var ltorneos= await torneo.findAll( {} )
+    var linscrito= await equipotorneo.findAll({
+        where:{
+            IdEquipo: req.user.equipo
+        }
     })
+        res.render('lider-vistatorneos',{ ltorneos, linscrito})
+    
       
 })
 
@@ -61,42 +60,27 @@ rutas.get('/editar-perfil',(req,res)=>{
 rutas.post('/editar-perfil',async (req,res)=>{
     let errors = [];
     const usuariocorreo = await usuario.findOne({correo: req.body.correo}) 
-    const usuarioAnterior = req.body.correo
-    if(req.user.correo==req.body.correo){
-            console.log(usuarioAnterior)
-            await usuario.findOneAndUpdate( 
-                {_id: req.body.idU},
-                {   
-                    nombre: req.body.nombre,
-                    correo: req.body.correo
-                },  
-                {runValidators:true}       
-            )   
-            .then(rpta=>{
-                    console.log(rpta)
-                    res.redirect('torneos')
-            })
-    }else{
-        if (usuariocorreo){
-            errors.push({text: 'Correo ya registrado'})
-        }
-        if (errors.length>0){
-            res.render('editar-perfil',{errors})
-          }else{
-            usuario.findOneAndUpdate( 
-                {_id: req.body.idU},
-                {   
-                    nombre: req.body.nombre,
-                    correo: req.body.correo
-                },  
-                {runValidators:true}       
-            )   
-            .then(rpta=>{
-                    console.log(rpta)
-                    res.redirect('torneos')
-            })
-          }
+    if (usuariocorreo){
+        errors.push({text: 'Correo ya registrado'})
     }
+
+    if (errors.length>0){
+        res.render('editar-perfil',{errors})
+      }else{
+        usuario.findOneAndUpdate( 
+            {_id: req.body.idU},
+            {   
+                nombre: req.body.nombre,
+                correo: req.body.correo,
+                password: req.body.contra
+            },  
+            {runValidators:true}       
+        )   
+        .then(rpta=>{
+                console.log(rpta)
+                res.redirect('torneos')
+        }) 
+      }
 })
 var LE = []
 
@@ -105,8 +89,7 @@ rutas.get('/editar-equipo',(req,res)=>{
     
     equipo.findOne({where: {id:req.user.equipo}}
         ).then(rpta =>{
-            LE = rpta
-            res.render('editar-equipo',{errors, lequipo:LE})
+            res.render('editar-equipo',{errors, lequipo:rpta})
         })
 })
 
@@ -139,16 +122,21 @@ rutas.post('/editar-equipo',async(req,res)=>{
             }).then(rpta=>{
                 res.redirect('torneos')
             })
-        }
+            }
+        })  
+}
+)
+rutas.get('/inscripcion',(req,res)=>{
+    equipotorneo.create({
+        puntaje: 10000,
+        estado: "inactivo",
+        IdEquipo: req.user.equipo,
+        IdTorneo: req.query.id
+    }).then(rpta=>{
+        res.redirect('torneos')
     })
-
     
 })
-
-
-    
-
-
 rutas.post('/retroceder-lider',(req,res)=>{
     res.redirect('torneos')
 })
