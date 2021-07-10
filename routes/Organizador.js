@@ -111,7 +111,7 @@ rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
 })
 
 rutas.get('/retroceder',isAuthenticated,(req,res)=>{
-  res.redirect('torneos')
+  res.redirect('/organizador/consultar-torneo/1')
 })
 var LTor = []
 rutas.get('/editar-torneo',isAuthenticated,(req,res)=>{
@@ -244,7 +244,7 @@ rutas.get('/ver-tabla-torneo',isAuthenticated,async(req,res)=>{
 })
 })
 
-rutas.get('/consultar-torneos/:page', (req,res,next) =>{
+rutas.get('/consultar-torneos/:page',isAuthenticated, (req,res,next) =>{
 
   let perPage= 5;
   let page= req.params.page || 1;    

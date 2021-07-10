@@ -28,7 +28,6 @@
             <th>- Nombre -</th>
             <th>- Estado -</th>
             <th>- Maximo de particpantes -</th>
-            <th>--</th>
             <th>- Inscrito ? --</th>
         </tr>
     </thead>
@@ -39,31 +38,27 @@
                     <td><%=elem.nombre%></td>
                     <td><%=elem.estado%></td>
                     <td><%=elem.maxParticipantes%></td>
-                    <td><form action="ver-torneo" method ="get">
-                        <input type="hidden" name="id" value="<%= elem.id %>" />
-                        <input type="submit" value="Ver">
-                    </form></td>
+                    
                 <td>
                     <% var inscrito= false 
                     linscrito.forEach(function(c){
                         if(elem.id == c.IdTorneo){ 
                             inscrito= true
                         }})%>
-                    <%if (elem.estado!="abierto" || elem.maxParticipantes== elem.numParticipantes){%>
-                            ---
+                    <%if (inscrito && elem.estado!="cerrado"){%>
+                            <form action="ver-torneo" method ="get">
+                            <input type="hidden" name="id" value="<%= elem.id %>" />
+                            <input type="submit" value="Ver">
+                            </form>
                         <%} 
                         
-                        else if(inscrito){%>
-                            SI
+                        else if(elem.estado!="abierto" || elem.maxParticipantes== elem.numParticipantes){%>
+                            ----
                         <%}
                         
                         else{%>
                             <form action="inscripcion" method ="GET">
                             <input type="submit"onclick="return conf()" value="Inscribirnos"/>
-    
-                            
-
-                            
                             
                             <input type="hidden" name="id" value="<%= elem.id %>" />
                             </form>

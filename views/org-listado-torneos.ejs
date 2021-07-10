@@ -23,7 +23,7 @@ Filtrar Nombre:
         </tr>
     </thead>
     <tbody id="datos">
-             <% torneos.forEach( function(elem) { %>
+             <% torneos.forEach(function(elem) { %>
                 <tr>
                     <td><%= elem.id %></td>
                     <td><%= elem.nombre %></td>
@@ -33,11 +33,11 @@ Filtrar Nombre:
                     <td><%= elem.maxParticipantes %></td>
                     <td>Todos contra Todos</td>
                 <td>
-                    <form action="editar-torneo">
+                    <form action="/organizador/editar-torneo">
                         <input type="hidden" name="id" value="<%= elem.id %>" />
                         <input type="submit" value="Editar" />
                     </form>
-                    <form action="organizar-torneo">
+                    <form action="/organizador/organizar-torneo">
                         <input type="hidden" name="id" value="<%= elem.id %>" />
                         <input type="submit" value="Organizar" />
                     </form>
