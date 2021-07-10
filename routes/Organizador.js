@@ -111,7 +111,7 @@ rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
 })
 
 rutas.get('/retroceder',isAuthenticated,(req,res)=>{
-  res.redirect('/organizador/consultar-torneo/1')
+  res.redirect('/organizador/consultar-torneos/1')
 })
 var LTor = []
 rutas.get('/editar-torneo',isAuthenticated,(req,res)=>{

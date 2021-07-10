@@ -26,9 +26,12 @@
         <tr>
             <th>-- ID -</th>
             <th>- Nombre -</th>
-            <th>- Estado -</th>
+            <th>- Descripción--</th>
+            <th>- Num Equipos registrados --</th>
             <th>- Maximo de particpantes -</th>
+            <th>- Estado -</th>
             <th>- Inscrito ? --</th>
+            
         </tr>
     </thead>
     <tbody id="datos">
@@ -36,8 +39,22 @@
                 <tr>
                     <td><%=elem.id%></td>
                     <td><%=elem.nombre%></td>
-                    <td><%=elem.estado%></td>
+                    <td><%=elem.descripcion%></td>
+                    <td><%=elem.numParticipantes%></td>
                     <td><%=elem.maxParticipantes%></td>
+                    <td><%=elem.estado%></td>
+                    <td>
+                        <% var inscrito= false 
+                        linscrito.forEach(function(c){
+                            if(elem.id == c.IdTorneo){ 
+                                inscrito= true
+                            }})%>
+                        <%if (inscrito ){%> 
+                            SI
+                        <%} else{%>
+                            NO
+                            <%}%>
+                    </td>
                     
                 <td>
                     <% var inscrito= false 
@@ -49,7 +66,10 @@
                             <form action="ver-torneo" method ="get">
                             <input type="hidden" name="id" value="<%= elem.id %>" />
                             <input type="submit" value="Ver">
+                            
+                           
                             </form>
+                            
                         <%} 
                         
                         else if(elem.estado!="abierto" || elem.maxParticipantes== elem.numParticipantes){%>
@@ -59,8 +79,8 @@
                         else{%>
                             <form action="inscripcion" method ="GET">
                             <input type="submit"onclick="return conf()" value="Inscribirnos"/>
-                            
                             <input type="hidden" name="id" value="<%= elem.id %>" />
+                                   
                             </form>
                         <%}%>
                 
