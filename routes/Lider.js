@@ -18,13 +18,15 @@ const user = require('../index')
 const multer = require('multer')
 const par = multer()
 
+const {isAuthenticated} = require('../helpers/auth')
+
 //Parsing de los datos
 rutas.use(express.urlencoded({extended:true}))
 rutas.use(express.json())
 rutas.use(par.array()) //para multer
 
 var LT = []
-rutas.get('/', (req,res)=>{
+rutas.get('/',isAuthenticated, (req,res)=>{
     torneo.findAll( {} )
       .then(ltorneos =>{
           LT = ltorneos
@@ -33,7 +35,7 @@ rutas.get('/', (req,res)=>{
 })
 
 
-rutas.get('/torneos',async(req,res)=>{
+rutas.get('/torneos',isAuthenticated, async(req,res)=>{
     var ltorneos= await torneo.findAll( {} )
     var linscrito= await equipotorneo.findAll({
         where:{
@@ -45,7 +47,7 @@ rutas.get('/torneos',async(req,res)=>{
       
 })
 
-rutas.get('/editar-perfil',(req,res)=>{
+rutas.get('/editar-perfil',isAuthenticated,(req,res)=>{
     let errors = [];
     usuario.find(
         {
@@ -57,7 +59,7 @@ rutas.get('/editar-perfil',(req,res)=>{
         })
 })
 
-rutas.post('/editar-perfil',async (req,res)=>{
+rutas.post('/editar-perfil',isAuthenticated,async (req,res)=>{
     let errors = [];
     const antiguo = req.body.correoAntiguo
     
@@ -99,7 +101,7 @@ rutas.post('/editar-perfil',async (req,res)=>{
 })
 var LE = []
 
-rutas.get('/editar-equipo',(req,res)=>{
+rutas.get('/editar-equipo',isAuthenticated,(req,res)=>{
     let errors = []
     
     equipo.findOne({where: {id:req.user.equipo}}
@@ -108,7 +110,7 @@ rutas.get('/editar-equipo',(req,res)=>{
         })
 })
 
-rutas.post('/editar-equipo',async(req,res)=>{
+rutas.post('/editar-equipo',isAuthenticated,async(req,res)=>{
     let errors = [];
     equipo.findAll({
         where:{
@@ -141,7 +143,7 @@ rutas.post('/editar-equipo',async(req,res)=>{
         })  
 }
 )
-rutas.get('/inscripcion',async (req,res)=>{
+rutas.get('/inscripcion',isAuthenticated,async (req,res)=>{
     var torn= await torneo.findOne({
         where:{
             id:req.query.id
@@ -158,10 +160,10 @@ rutas.get('/inscripcion',async (req,res)=>{
     })
     
 })
-rutas.post('/retroceder-lider',(req,res)=>{
+rutas.post('/retroceder-lider',isAuthenticated,(req,res)=>{
     res.redirect('torneos')
 })
-rutas.get('/ver-torneo',(req,res)=>{
+rutas.get('/ver-torneo',isAuthenticated,(req,res)=>{
     torneo.findOne({
         where:{id:req.query.id}
     }).then(rpta=>{

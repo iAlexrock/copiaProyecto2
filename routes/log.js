@@ -13,6 +13,7 @@ const usuario=require('../models/usuario')
 
 const passport=require('passport');
 
+const {isAuthenticated} = require('../helpers/auth')
 
 const {Op}= require("sequelize")
 

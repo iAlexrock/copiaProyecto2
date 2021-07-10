@@ -16,7 +16,7 @@ const passport=require('passport');
 const {Op}= require("sequelize")
 
 const app = express();
-
+const {isAuthenticated} = require('../helpers/auth')
 //MULTER
 const multer = require('multer')
 const par = multer()
@@ -31,7 +31,7 @@ rutas.use(par.array()) //para multer
 
 var rolo =""
 //inicio sesion
-rutas.get('/',(req,res)=>{
+rutas.get('/',isAuthenticated, (req,res)=>{
   let errors = [];
   console.log("------------>" + rolo)
  
