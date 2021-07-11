@@ -49,23 +49,17 @@
                         if(elem.id == c.IdTorneo){ 
                             inscrito= true
                         }})%>
-                    <%if (!inscrito && elem.estado!="abierto" && elem.maxParticipantes> elem.numParticipantes){%>
+                    <%if (!inscrito && elem.estado=="abierto" && elem.maxParticipantes> elem.numParticipantes){%>
                             <form action="inscripcion" method ="GET">
                             <input type="submit"onclick="return conf()" value="Inscribirnos"/>
                             <input type="hidden" name="id" value="<%= elem.id %>" />
                             </form>
-                            
-                           
-                            </form>
-                            
-                        <%} 
-                        
+                            <%} 
                         else if(elem.estado!="cerrado" && inscrito){%>
                             <form action="ver-torneo" method ="get">
                             <input type="hidden" name="id" value="<%= elem.id %>" />
-                            <input type="submit" value="Ver">
+                            <input type="submit" value="Ver"></form>
                         <%}
-                        
                         else{%>
                             <%if (inscrito ){%> 
                                 SI
@@ -73,14 +67,12 @@
                                 NO
                                 <%}%>
                         <%}%>
-                
-                    
                 </td>
                 </tr>
                 <%}) %>
-     </tbody>
-</table>
-<script >
+                </tbody>
+    </table>
+                        <script >
                                 function conf() {
                                 var con = confirm("ESTAS SEGURPO DE Inscribirte al torneo?");
                                 if(con == true)

@@ -98,7 +98,7 @@ rutas.post('/creartorneo',isAuthenticated,(req,res)=>{
            
         }).then(rpta =>{
           
-          res.redirect('torneos')
+          res.redirect('/organizador/consultar-torneos/1')
         })
         .catch( error =>{
           console.log(error)
@@ -168,7 +168,7 @@ rutas.post('/editar-torneo',isAuthenticated,(req,res)=>{
       }
       })
       .then(rpta =>{
-        res.redirect('/organizador/torneos')
+        res.redirect('/organizador/consultar-torneos/1')
       })
       .catch( error =>{
         console.log(error)
@@ -268,4 +268,19 @@ rutas.get('/consultar-torneos/:page',isAuthenticated, (req,res,next) =>{
     })
 })
 
+
+function CalcularFixture (equipos){
+  var longitud= equipos.length//5
+  var n=longitud -1
+  var e1=[]
+  var e2=[]
+  for (var i=0;i<longitud*(longitud-1)/2;i++){//5 rondas
+    while(n>0){
+      e1.append(equipo[i])
+      e2.append(equipo[n])
+      n=n-1
+    }
+    //transformar equipos
+  }
+}
 module.exports =rutas
