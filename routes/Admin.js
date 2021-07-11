@@ -302,6 +302,7 @@ rutas.post('/editar-usuario',isAuthenticated,async (req,res)=>{
 rutas.post('/buscar-pagina', (req,res)=>{
     const pag= parseInt(req.body.paginado)
     res.redirect('/admin/consultar-usuarios/'+ pag)
+    console.log("xddddddddddd")
 })
 
 
