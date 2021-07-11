@@ -42,46 +42,36 @@
                     <td><%=elem.descripcion%></td>
                     <td><%=elem.numParticipantes%></td>
                     <td><%=elem.maxParticipantes%></td>
-                    <td><%=elem.estado%></td>
-                    <td>
-                        <% var inscrito= false 
-                        linscrito.forEach(function(c){
-                            if(elem.id == c.IdTorneo){ 
-                                inscrito= true
-                            }})%>
-                        <%if (inscrito ){%> 
-                            SI
-                        <%} else{%>
-                            NO
-                            <%}%>
-                    </td>
-                    
+                    <td><%=elem.estado%></td>                    
                 <td>
                     <% var inscrito= false 
                     linscrito.forEach(function(c){
                         if(elem.id == c.IdTorneo){ 
                             inscrito= true
                         }})%>
-                    <%if (inscrito && elem.estado!="cerrado"){%>
-                            <form action="ver-torneo" method ="get">
+                    <%if (!inscrito && elem.estado!="abierto" && elem.maxParticipantes> elem.numParticipantes){%>
+                            <form action="inscripcion" method ="GET">
+                            <input type="submit"onclick="return conf()" value="Inscribirnos"/>
                             <input type="hidden" name="id" value="<%= elem.id %>" />
-                            <input type="submit" value="Ver">
+                            </form>
                             
                            
                             </form>
                             
                         <%} 
                         
-                        else if(elem.estado!="abierto" || elem.maxParticipantes== elem.numParticipantes){%>
-                            ----
+                        else if(elem.estado!="cerrado" && inscrito){%>
+                            <form action="ver-torneo" method ="get">
+                            <input type="hidden" name="id" value="<%= elem.id %>" />
+                            <input type="submit" value="Ver">
                         <%}
                         
                         else{%>
-                            <form action="inscripcion" method ="GET">
-                            <input type="submit"onclick="return conf()" value="Inscribirnos"/>
-                            <input type="hidden" name="id" value="<%= elem.id %>" />
-                                   
-                            </form>
+                            <%if (inscrito ){%> 
+                                SI
+                            <%} else{%>
+                                NO
+                                <%}%>
                         <%}%>
                 
                     
