@@ -47,7 +47,7 @@ var crearFila=(nombre, descripcion,cantidad )=>{
     button2.setAttribute("type", "button");
     button2.setAttribute("class", "btn btn-danger btn-sm");
     button2.innerHTML = "Ver";
-    //button2.addEventListener("click",  VerTablaPosiciones);
+    button2.addEventListener("click",  TablaPosiciones);
 
     tdfixt.appendChild(button1)
     tdtabla.appendChild(button2)
@@ -64,8 +64,9 @@ var fixture=()=>{
     var popup = document.getElementById("myPopup");
     popup.classList.toggle("show");
 }
-var VerTablaPosiciones=(event)=>{
-    console.log("crear pop up que muestre tabla posiciones")
+var TablaPosiciones=()=>{
+    var popup = document.getElementById("myPopup2");
+    popup.classList.toggle("show");
 }
 
 var main = () => {
